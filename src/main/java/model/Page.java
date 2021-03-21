@@ -1,4 +1,4 @@
-package main.java.controller;
+package main.java.model;
 
 import java.util.Arrays;
 import java.util.List;
