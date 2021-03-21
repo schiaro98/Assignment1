@@ -1,0 +1,31 @@
+package main.java.controller;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class Page {
+
+
+    private String page;
+
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
+
+    /**
+     * remove unwanted words from page and return all the other words as a List of String
+     * @param unwantedWords
+     * @return
+     */
+    public List<String> getRelevantWords(List<String> unwantedWords){
+        for(String s : unwantedWords){
+            page = page.replace(s, "");
+        }
+        return Arrays.asList(page.split("\\W+"));
+    }
+}
