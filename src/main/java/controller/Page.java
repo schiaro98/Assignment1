@@ -8,14 +8,14 @@ public class Page {
 
     private String page;
 
+    public Page(String page){
+        this.page = page;
+
+    }
+
     public String getPage() {
         return page;
     }
-
-    public void setPage(String page) {
-        this.page = page;
-    }
-
 
     /**
      * remove unwanted words from page and return all the other words as a List of String
