@@ -1,7 +1,5 @@
 package main.java.model;
 
-import main.java.controller.Page;
-
 import java.util.HashMap;
 import java.util.List;
 
