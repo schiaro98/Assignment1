@@ -6,10 +6,10 @@ import java.util.List;
 public class AnalystWorker extends Thread{
 
     //TODO fare dei test per vedere quanto migliora la situazione con arraylist rispetto a linkedlist
-    private List<Page> pages;
-    private HashMap<String, Integer> pageRank;
-    private RankMonitor rankMonitor;
-    private List<String> unwantedWords;
+    private final List<Page> pages;
+    private final HashMap<String, Integer> pageRank;
+    private final RankMonitor rankMonitor;
+    private final List<String> unwantedWords;
 
     public AnalystWorker(String name, List<Page> pages, RankMonitor rankMonitor, List<String> unwantedWords){
         super(name);

@@ -19,8 +19,8 @@ public class Page {
 
     /**
      * remove unwanted words from page and return all the other words as a List of String
-     * @param unwantedWords
-     * @return
+     * @param unwantedWords words to delete from string
+     * @return string without unwantedWords
      */
     public List<String> getRelevantWords(List<String> unwantedWords){
         for(String s : unwantedWords){
