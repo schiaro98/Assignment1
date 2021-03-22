@@ -1,7 +1,6 @@
 package main.java.model;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class AnalystWorker extends Thread{
@@ -22,13 +21,10 @@ public class AnalystWorker extends Thread{
 
     @Override
     public void run() {
-        Iterator<Page> iterator = pages.iterator();
-        while (iterator.hasNext()){
-            Page p = iterator.next();
+        for (Page p : pages){
             for (String word : p.getRelevantWords(unwantedWords)){
                 update(word);
             }
-            iterator.remove();
             rankMonitor.update(pageRank);
             pageRank.clear();
         }
