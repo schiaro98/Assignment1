@@ -2,11 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="685746c2-3ffc-428f-9c26-40b164cf24d9" name="Default Changelist" comment="fixed AnalystWorker, now the core part of the project seem to work just fine">
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/AnalystWorker.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/AnalystWorker.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitor.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitorImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitorImpl.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/AnalystWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/AnalystWorker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/RankMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/RankMonitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/RankMonitorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/RankMonitorImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/WorkerAnalisys.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/as1/TestMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/as1/TestMonitor.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +45,20 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../lab/pcd2021-main" />
   </component>
-  <component name="RunManager" selected="JUnit.TestMonitor.testMonitorOnListOfPages">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.java.Main" />
+      <module name="Assignment1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="gui" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.view.gui" />
       <module name="Assignment1" />
@@ -54,6 +68,17 @@
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -105,29 +130,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestMonitor.testPageSeparation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="Assignment1" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="as1.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="as1" />
-      <option name="MAIN_CLASS_NAME" value="as1.TestMonitor" />
-      <option name="METHOD_NAME" value="testPageSeparation" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.TestMonitor.testMonitorOnListOfPages" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TestMonitor" />
+        <item itemvalue="JUnit.TestMonitor.testMonitorOnListOfPages" />
         <item itemvalue="Application.gui" />
         <item itemvalue="JUnit.TestMonitor.testMonitorOnSinglePage" />
-        <item itemvalue="JUnit.TestMonitor.testPageSeparation" />
       </list>
     </recent_temporary>
   </component>

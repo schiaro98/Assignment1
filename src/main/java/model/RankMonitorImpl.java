@@ -10,13 +10,16 @@ public class RankMonitorImpl extends Model implements RankMonitor {
     private final HashMap<String, Integer> rank;
     private final Lock mutex;
     private boolean stop;
+    private int totalWords;
     private final List<ModelObserver> observers;
+
 
     public RankMonitorImpl(){
         observers = new ArrayList<>();
         mutex = new ReentrantLock();
         rank = new HashMap<>();
         stop = false;
+        totalWords = 0;
     }
 
     /*
@@ -30,11 +33,13 @@ public class RankMonitorImpl extends Model implements RankMonitor {
 			mutex.lock();
 			if(!stop){
                 for (String s: pageRank.keySet()) {
+                    int instancesOfThisWord = pageRank.get(s);
                     if(rank.containsKey(s)){
-                        rank.put(s,rank.get(s)+ pageRank.get(s));
+                        rank.put(s,rank.get(s) + instancesOfThisWord);
                     } else {
-                        rank.put(s, pageRank.get(s));
+                        rank.put(s, instancesOfThisWord);
                     }
+                    totalWords += instancesOfThisWord;
                 }
             }
 		} finally {
