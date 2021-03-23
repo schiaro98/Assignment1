@@ -6,11 +6,9 @@
 =======
     <list default="true" id="685746c2-3ffc-428f-9c26-40b164cf24d9" name="Default Changelist" comment="fixed AnalystWorker, now the core part of the project seem to work just fine">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitorImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitorImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/AnalystWorker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/AnalystWorker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/RankMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/RankMonitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/model/RankMonitorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/RankMonitorImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/model/WorkerAnalisys.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/as1/TestMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/as1/TestMonitor.java" afterDir="false" />
     </list>
 >>>>>>> a0766681b46dbd698380b4c9b365dd601ae471b3
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +57,7 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../lab/pcd2021-main" />
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="JUnit.TestMonitor">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.Main" />
       <module name="Assignment1" />
@@ -153,8 +151,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TestMonitor" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TestMonitor.testMonitorOnListOfPages" />
         <item itemvalue="Application.gui" />
         <item itemvalue="JUnit.TestMonitor.testMonitorOnSinglePage" />

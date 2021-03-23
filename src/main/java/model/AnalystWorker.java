@@ -1,5 +1,6 @@
 package main.java.model;
 
+import javax.security.auth.callback.TextInputCallback;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,7 +27,10 @@ public class AnalystWorker extends Thread{
             for (String word : words){
                 update(word);
             }
-            rankMonitor.update(pageRank);
+            if (!rankMonitor.update(pageRank)){
+                //se torno falso smetto di gu
+                break;
+            }
             pageRank.clear();
         }
         System.out.println("Thread "+getName()+" completed his job... exiting");
