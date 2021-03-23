@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="850763ed-7b0d-4550-b989-aae92268de71" name="Default Changelist" comment="Added .class to gitignore" />
+=======
+    <list default="true" id="685746c2-3ffc-428f-9c26-40b164cf24d9" name="Default Changelist" comment="fixed AnalystWorker, now the core part of the project seem to work just fine">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitor.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitorImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Assignment1/main/java/model/RankMonitorImpl.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/RankMonitorImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/RankMonitorImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/WorkerAnalisys.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/as1/TestMonitor.java" beforeDir="false" afterPath="$PROJECT_DIR$/test/as1/TestMonitor.java" afterDir="false" />
+    </list>
+>>>>>>> a0766681b46dbd698380b4c9b365dd601ae471b3
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -15,6 +27,66 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RunManager">
+=======
+  <component name="CodeStyleSettingsInfer">
+    <option name="done" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="1" />
+  </component>
+  <component name="ProjectId" id="1q3ti2OyZCBfDbcly7ro5CclAVj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../lab/pcd2021-main" />
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.java.Main" />
+      <module name="Assignment1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.java.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="gui" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main.java.view.gui" />
+      <module name="Assignment1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="main.java.view.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+>>>>>>> a0766681b46dbd698380b4c9b365dd601ae471b3
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
@@ -26,10 +98,71 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
   </component>
   <component name="TaskManager">
     <servers />
   </component>
+=======
+    <configuration name="TestMonitor" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="as1.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="as1" />
+      <option name="MAIN_CLASS_NAME" value="as1.TestMonitor" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMonitor.testMonitorOnListOfPages" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="as1.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="as1" />
+      <option name="MAIN_CLASS_NAME" value="as1.TestMonitor" />
+      <option name="METHOD_NAME" value="testMonitorOnListOfPages" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestMonitor.testMonitorOnSinglePage" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="Assignment1" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="as1.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="as1" />
+      <option name="MAIN_CLASS_NAME" value="as1.TestMonitor" />
+      <option name="METHOD_NAME" value="testMonitorOnSinglePage" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+        <item itemvalue="JUnit.TestMonitor" />
+        <item itemvalue="JUnit.TestMonitor.testMonitorOnListOfPages" />
+        <item itemvalue="Application.gui" />
+        <item itemvalue="JUnit.TestMonitor.testMonitorOnSinglePage" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+>>>>>>> a0766681b46dbd698380b4c9b365dd601ae471b3
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
@@ -42,4 +175,14 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="deleted Page setter and added a constructor" />
+    <MESSAGE value="moved Page to model" />
+    <MESSAGE value="tested Page and analysisworker functionalities, monitorto be fixed" />
+    <MESSAGE value="fixed AnalystWorker, now the core part of the project seem to work just fine" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed AnalystWorker, now the core part of the project seem to work just fine" />
+  </component>
+>>>>>>> a0766681b46dbd698380b4c9b365dd601ae471b3
 </project>

@@ -9,12 +9,17 @@ public class RankMonitorImpl extends Model implements RankMonitor {
 
     private final HashMap<String, Integer> rank;
     private final Lock mutex;
+    private boolean stop;
+    private int totalWords;
     private final List<ModelObserver> observers;
+
 
     public RankMonitorImpl(){
         observers = new ArrayList<>();
         mutex = new ReentrantLock();
         rank = new HashMap<>();
+        stop = false;
+        totalWords = 0;
     }
 
     /*
@@ -22,15 +27,19 @@ public class RankMonitorImpl extends Model implements RankMonitor {
         aka pagerank non vuoto
      */
     @Override
-    public synchronized void update(HashMap<String, Integer> pageRank) {
+    public void update(HashMap<String, Integer> pageRank) {
         notifyObservers();
         try {
 			mutex.lock();
-            for (String s: pageRank.keySet()) {
-                if(rank.containsKey(s)){
-                    rank.put(s,rank.get(s)+ pageRank.get(s));
-                } else {
-                    rank.put(s, pageRank.get(s));
+			if(!stop){
+                for (String s: pageRank.keySet()) {
+                    int instancesOfThisWord = pageRank.get(s);
+                    if(rank.containsKey(s)){
+                        rank.put(s,rank.get(s) + instancesOfThisWord);
+                    } else {
+                        rank.put(s, instancesOfThisWord);
+                    }
+                    totalWords += instancesOfThisWord;
                 }
             }
 		} finally {
@@ -39,7 +48,7 @@ public class RankMonitorImpl extends Model implements RankMonitor {
     }
 
     @Override
-    public synchronized HashMap<String, Integer> viewMostFrequentN(int n) {
+    public HashMap<String, Integer> viewMostFrequentN(int n) {
         try{
             mutex.lock();
             Map<String, Integer> sortedMap = rank
@@ -56,6 +65,10 @@ public class RankMonitorImpl extends Model implements RankMonitor {
         }
     }
 
+    @Override
+    public void stop() {
+        this.stop = true;
+    }
 
     private void notifyObservers(){
         for (ModelObserver obs: observers){
