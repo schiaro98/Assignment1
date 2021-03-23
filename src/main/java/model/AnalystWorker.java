@@ -22,7 +22,8 @@ public class AnalystWorker extends Thread{
     @Override
     public void run() {
         for (Page p : pages){
-            for (String word : p.getRelevantWords(unwantedWords)){
+            var words =  p.getRelevantWords(unwantedWords);
+            for (String word : words){
                 update(word);
             }
             rankMonitor.update(pageRank);

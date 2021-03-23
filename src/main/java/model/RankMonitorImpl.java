@@ -11,10 +11,12 @@ public class RankMonitorImpl implements RankMonitor {
 
     private final HashMap<String, Integer> rank;
     private final Lock mutex;
+    private boolean stop;
 
     public RankMonitorImpl(){
         mutex = new ReentrantLock();
         rank = new HashMap<>();
+        stop = false;
     }
 
     /*
@@ -25,11 +27,13 @@ public class RankMonitorImpl implements RankMonitor {
     public synchronized void update(HashMap<String, Integer> pageRank) {
         try {
 			mutex.lock();
-            for (String s: pageRank.keySet()) {
-                if(rank.containsKey(s)){
-                    rank.put(s,rank.get(s)+ pageRank.get(s));
-                } else {
-                    rank.put(s, pageRank.get(s));
+			if(!stop){
+                for (String s: pageRank.keySet()) {
+                    if(rank.containsKey(s)){
+                        rank.put(s,rank.get(s)+ pageRank.get(s));
+                    } else {
+                        rank.put(s, pageRank.get(s));
+                    }
                 }
             }
 		} finally {
@@ -53,5 +57,10 @@ public class RankMonitorImpl implements RankMonitor {
         } finally {
             mutex.unlock();
         }
+    }
+
+    @Override
+    public void stop() {
+        this.stop = true;
     }
 }
