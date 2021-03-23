@@ -51,7 +51,7 @@ public class ExtractTextSimple
             usage();
         }*/
 
-        PDDocument document = PDDocument.load(new File("res/pdf/lorem-ipsum.pdf"));
+        PDDocument document = PDDocument.load(new File("res/pdf/Test_PDF.pdf"));
         AccessPermission ap = document.getCurrentAccessPermission();
         if (!ap.canExtractContent())
         {
