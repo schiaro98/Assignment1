@@ -1,12 +1,10 @@
 package main.java.controller;
 
 import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class documentReader {
     private final String text;
@@ -22,8 +20,6 @@ public class documentReader {
         this.stripper.setEndPage(document.getNumberOfPages());
         //1 doc in più thread
         //Un monitor per ogni pagina/stringa estratta
-        ArrayList<PDPage> pages = new ArrayList<>();
-        PDPage page = document.getPage(4); //Array di pagine ....
         this.text = stripper.getText(document).trim(); //TODO
     }
 
