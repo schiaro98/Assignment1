@@ -27,7 +27,7 @@ public class RankMonitorImpl extends Model implements RankMonitor {
         aka pagerank non vuoto
      */
     @Override
-    public void update(HashMap<String, Integer> pageRank) {
+    public boolean update(HashMap<String, Integer> pageRank) {
         notifyObservers();
         try {
 			mutex.lock();
@@ -40,8 +40,10 @@ public class RankMonitorImpl extends Model implements RankMonitor {
                         rank.put(s, instancesOfThisWord);
                     }
                     totalWords += instancesOfThisWord;
+                    return true;
                 }
             }
+            return false;
 		} finally {
 			mutex.unlock();
 		}
@@ -67,7 +69,13 @@ public class RankMonitorImpl extends Model implements RankMonitor {
 
     @Override
     public void stop() {
-        this.stop = true;
+        try {
+            mutex.lock();
+            this.stop = true;
+        } finally {
+            mutex.unlock();
+        }
+
     }
 
     private void notifyObservers(){
