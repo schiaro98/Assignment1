@@ -1,18 +1,18 @@
 package main.java.model;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
-public class RankMonitorImpl implements RankMonitor {
+public class RankMonitorImpl extends Model implements RankMonitor {
 
     private final HashMap<String, Integer> rank;
     private final Lock mutex;
+    private final List<ModelObserver> observers;
 
     public RankMonitorImpl(){
+        observers = new ArrayList<>();
         mutex = new ReentrantLock();
         rank = new HashMap<>();
     }
@@ -23,6 +23,7 @@ public class RankMonitorImpl implements RankMonitor {
      */
     @Override
     public synchronized void update(HashMap<String, Integer> pageRank) {
+        notifyObservers();
         try {
 			mutex.lock();
             for (String s: pageRank.keySet()) {
@@ -52,6 +53,13 @@ public class RankMonitorImpl implements RankMonitor {
                     .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
         } finally {
             mutex.unlock();
+        }
+    }
+
+
+    private void notifyObservers(){
+        for (ModelObserver obs: observers){
+            obs.updateModel(this);
         }
     }
 }
