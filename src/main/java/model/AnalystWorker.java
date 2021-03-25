@@ -5,6 +5,7 @@ import java.util.List;
 
 public class AnalystWorker extends Thread{
 
+    private final int MAX_TO_WAIT_BEFORE_UPDATING = 500;
     //TODO fare dei test per vedere quanto migliora la situazione con arraylist rispetto a linkedlist
     private final List<Page> pages;
     private final HashMap<String, Integer> pageRank;
@@ -23,10 +24,21 @@ public class AnalystWorker extends Thread{
     //vincolato alla pagine
     @Override
     public void run() {
+        long end = 0;
         for (Page p : pages){
             var words =  p.getRelevantWords(unwantedWords);
+            long start = System.currentTimeMillis();
             for (String word : words){
                 update(word);
+                end = System.currentTimeMillis();
+                if (end-start > MAX_TO_WAIT_BEFORE_UPDATING){
+                    if (!rankMonitor.update(pageRank)){
+                        //se torno falso smetto
+                        System.out.println("program stopped");
+                        break;
+                    }
+                    start = 0;
+                }
             }
             if (!rankMonitor.update(pageRank)){
                 //se torno falso smetto
