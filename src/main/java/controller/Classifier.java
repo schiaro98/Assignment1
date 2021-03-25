@@ -27,10 +27,10 @@ public class Classifier {
             System.out.println("---DOCUMENT #"+documentReaden+"---");
             documentReader rd = new documentReader(String.valueOf(p));
             rd.closeDocument();
-            documentCleaner cleaner = new documentCleaner(rd.getText());
-            textReader words = new textReader(cleaner.getCleanedText(), rd);
+            //documentCleaner cleaner = new documentCleaner(rd.getText());
+            //textReader words = new textReader(cleaner.getCleanedText(), rd);
 
-            frequentWords.putAll(words.getMostFrequent(10));
+            //frequentWords.putAll(words.getMostFrequent(10));
             for (String key:frequentWords.keySet()) {
                 System.out.println("Word: " + key + " | Occurences: " + frequentWords.get(key));
             }

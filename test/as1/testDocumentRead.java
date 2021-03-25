@@ -28,7 +28,7 @@ public class testDocumentRead {
 
         assertTrue(rd.getDocumentPermission());
         System.out.println("Number of pages: " + rd.getNumberOfPages());
-        String text = rd.getText();
+        //String text = rd.getText();
         //OR -> String text2 = rd.getStripper().getText();
     }
 

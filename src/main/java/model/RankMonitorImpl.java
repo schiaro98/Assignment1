@@ -59,9 +59,10 @@ public class RankMonitorImpl extends Model implements RankMonitor {
                     .sorted(Map.Entry.comparingByValue())
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
                             (e1, e2) -> e1, LinkedHashMap::new));
-            return sortedMap.entrySet().stream()
-                    .limit(n)
+            HashMap<String, Integer> sorted = sortedMap.entrySet().stream().limit(n)
                     .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
+            sorted.put("TOTAL_WORDS", totalWords);
+            return sorted;
         } finally {
             mutex.unlock();
         }
