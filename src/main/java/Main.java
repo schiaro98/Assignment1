@@ -1,8 +1,6 @@
 package main.java;
 
 import main.java.controller.Controller;
-import main.java.model.Model;
-
 import main.java.model.RankMonitorImpl;
 import main.java.view.View;
 
