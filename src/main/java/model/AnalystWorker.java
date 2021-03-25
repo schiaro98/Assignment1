@@ -1,6 +1,5 @@
 package main.java.model;
 
-import javax.security.auth.callback.TextInputCallback;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +19,8 @@ public class AnalystWorker extends Thread{
         this.rankMonitor = rankMonitor;
     }
 
+    //si potrebbe fare uno scheduling a tempo, prendo i currentmillis, se superano un tot aggiorno -> non sono
+    //vincolato alla pagine
     @Override
     public void run() {
         for (Page p : pages){
@@ -28,7 +29,8 @@ public class AnalystWorker extends Thread{
                 update(word);
             }
             if (!rankMonitor.update(pageRank)){
-                //se torno falso smetto di gu
+                //se torno falso smetto
+                System.out.println("program stopped");
                 break;
             }
             pageRank.clear();

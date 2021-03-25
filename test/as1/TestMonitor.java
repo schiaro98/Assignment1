@@ -43,7 +43,7 @@ public class TestMonitor {
         var map = monitor.viewMostFrequentN(2);
         assertEquals(4000, map.get("prova"));
         assertEquals(2000, map.get("pisello"));
-        //assertEquals(Integer.parseInt("600"),map.get());
+        assertEquals(6000,map.get("TOTAL_WORDS"));
     }
 
     @Test

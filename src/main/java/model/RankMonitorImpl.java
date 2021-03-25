@@ -28,9 +28,10 @@ public class RankMonitorImpl extends Model implements RankMonitor {
      */
     @Override
     public boolean update(HashMap<String, Integer> pageRank) {
-        notifyObservers();
         try {
-			mutex.lock();
+            mutex.lock();
+            //serve la notify?
+            notifyObservers();
 			if(!stop){
                 for (String s: pageRank.keySet()) {
                     int instancesOfThisWord = pageRank.get(s);
@@ -68,6 +69,11 @@ public class RankMonitorImpl extends Model implements RankMonitor {
         }
     }
 
+    public void stamp(){
+        for (String s :rank.keySet()){
+            System.out.println("Word "+s+" appeared:   " +rank.get(s)+ " times." );
+        }
+    }
     @Override
     public void stop() {
         try {

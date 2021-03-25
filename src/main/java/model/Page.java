@@ -2,6 +2,7 @@ package main.java.model;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class Page {
 
@@ -23,8 +24,9 @@ public class Page {
      * @return string without unwantedWords
      */
     public List<String> getRelevantWords(List<String> unwantedWords){
+        this.page = page.toLowerCase();
         for(String s : unwantedWords){
-            page = page.replace(s, "");
+            page = page.replace(s.toLowerCase(), "");
         }
         return Arrays.asList(page.split("\\W+"));
     }

@@ -9,4 +9,7 @@ public interface RankMonitor {
     HashMap<String, Integer> viewMostFrequentN(int n);
 
     void stop();
+
+    //TODO delete stamp()
+    void stamp();
 }

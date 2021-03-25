@@ -13,6 +13,8 @@ public class Controller {
     private Model model;
     private List<Page> pages;
     private RankMonitor monitor = new RankMonitorImpl();
+    private PagesMonitor pagesMonitor = new PagesMonitorImpl();
+    private int processors =  Runtime.getRuntime().availableProcessors();
 
     public Controller(RankMonitorImpl model){
         this.model = model;
@@ -21,29 +23,52 @@ public class Controller {
     public void processEvent(String event) throws IOException {
         switch(event){
             case "confirm":
-                pages = new documentReader("res/pdf/ps.pdf").getPages();
-                int processors = Runtime.getRuntime().availableProcessors();
-                System.out.println("Processors: " + processors+ " Pages: " + pages.size());
+                new documentReader("res/pdf/ps.pdf",pagesMonitor);
+                System.out.println("");
+                System.out.println("");
+                System.out.println(pagesMonitor.size());
+                System.out.println("");
+                System.out.println("");
+
+               /* System.out.println("Processors: " + processors+ " Pages: " + pages.size());
                 int qz = getPagesForThread(processors).get(0);
                 int resto = getPagesForThread(processors).get(1);
                 int acc = 0;
-                new AnalystWorker("0", pages.subList(acc,acc+qz+resto), monitor,
-                    Arrays.asList("AAAAA")).start();
+                new AnalystWorker("0", pagesMonitor.getSublist(acc,acc+qz+resto), monitor,
+                    Arrays.asList("XX")).start();
                 acc = acc+qz+resto;
                 System.out.println("Acc:" + acc  );
                 for (int i = 1; i < processors; i++) {
-                    new AnalystWorker(String.valueOf(i), pages.subList(acc,acc+qz), monitor,
-                                Arrays.asList("AAAAA")).start();
+                    System.out.println("Thread "+String.valueOf(i)+ " has pages from "+acc+" to "+(acc+qz) );
+                    new AnalystWorker(String.valueOf(i), pagesMonitor.getSublist(acc,acc+qz), monitor,
+                                Arrays.asList("XX")).start();
                     acc = acc+qz;
                     System.out.println("Acc:" + acc  );
                 }
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(monitor.viewMostFrequentN(10));
                 try {
                     Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println(monitor.viewMostFrequentN(10));
+                monitor.stamp();*/
                 //Faccio partire thread di analisi
+                for (int i = 0; i < pagesMonitor.size(); i++) {
+                    new AnalystWorker(String.valueOf(i), Arrays.asList(pagesMonitor.getPage(i)), monitor,
+                            Arrays.asList("XX")).start();
+                }
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(monitor.viewMostFrequentN(10));
+                monitor.stamp();
                 break;
             case "start":
                 System.out.println("start action required");
