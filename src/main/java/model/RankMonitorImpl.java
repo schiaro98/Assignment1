@@ -41,8 +41,8 @@ public class RankMonitorImpl extends Model implements RankMonitor {
                         rank.put(s, instancesOfThisWord);
                     }
                     totalWords += instancesOfThisWord;
-                    return true;
                 }
+                return true;
             }
             return false;
 		} finally {

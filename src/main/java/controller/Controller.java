@@ -23,7 +23,7 @@ public class Controller {
     public void processEvent(String event) throws IOException {
         switch(event){
             case "confirm":
-                new documentReader("res/pdf/ps.pdf",pagesMonitor);
+                new documentReader("res/pdf/prova_ricci.pdf",pagesMonitor);
                 System.out.println("");
                 System.out.println("");
                 System.out.println(pagesMonitor.size());
