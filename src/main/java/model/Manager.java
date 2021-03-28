@@ -9,6 +9,7 @@ public class Manager{
 
     private List<Task> tasks = new LinkedList<>();
     private final Lock mutex;
+    private boolean stop = false;
 
     public Manager() {
         mutex = new ReentrantLock();
@@ -24,11 +25,45 @@ public class Manager{
     }
 
     public boolean isDone(){
-        for (Task t : tasks){
-         if (!t.isDone()){
-            return false;
-         }
+        try{
+            mutex.lock();
+            for (Task t : tasks){
+                if (!t.isDone()){
+                    return false;
+                }
+            }
+            return true;
+        } finally {
+            mutex.unlock();
         }
-        return true;
+
+
+    }
+
+    public List<Task> getTasks(){
+        try{
+            mutex.lock();
+            return this.tasks;
+        } finally {
+            mutex.unlock();
+        }
+    }
+
+    public void stop(){
+        try{
+            mutex.lock();
+            this.stop = true;
+        } finally {
+            mutex.unlock();
+        }
+    }
+
+    public boolean isComputationStopped(){
+        try{
+            mutex.lock();
+            return  this.stop;
+        } finally {
+            mutex.unlock();
+        }
     }
 }
