@@ -12,8 +12,8 @@ import java.util.Optional;
 public class Worker extends Thread{
 
     private final int MAX_TO_WAIT_BEFORE_UPDATING = 500;
-    private Manager manager;
-    private RankMonitor rankMonitor;
+    private final Manager manager;
+    private final RankMonitor rankMonitor;
     private final int myPosition;
     private final List<String> unwantedWords;
 
@@ -70,7 +70,7 @@ public class Worker extends Thread{
 
     private void analyze(Page page){
         HashMap<String, Integer> pageRank = new HashMap<>();
-        long end = 0;
+        long end;
         var words =  page.getRelevantWords(unwantedWords);
         long start = System.currentTimeMillis();
         for (String word : words){
