@@ -12,8 +12,8 @@ import java.awt.event.ActionListener;
 public class View extends JFrame implements ModelObserver, ActionListener {
 
     private final Controller controller;
-    private static final int GLOBAL_WIDTH = 300;
-    private static final int GLOBAL_HEIGHT = 300;
+    private static final int GLOBAL_WIDTH = 400;
+    private static final int GLOBAL_HEIGHT = 400;
     private static final String newline = "\n";
     private JTextArea textArea;
 
@@ -26,9 +26,10 @@ public class View extends JFrame implements ModelObserver, ActionListener {
     public void prepareFrame(JFrame frame) {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(GLOBAL_WIDTH, GLOBAL_HEIGHT);
+        frame.getContentPane().setLayout(new BorderLayout());
+        addTextArea(frame);
         addDirectoryPanel(frame);
         addButtons(frame);
-        addTextArea(frame);
         frame.setVisible(true);
     }
 
@@ -38,27 +39,29 @@ public class View extends JFrame implements ModelObserver, ActionListener {
         JTextField directoryText = new JTextField("path/to/files",20);
         dirPanel.add(directoryLabel);
         dirPanel.add(directoryText);
-        frame.getContentPane().add(BorderLayout.NORTH, dirPanel);
+        frame.getContentPane().add(BorderLayout.CENTER, dirPanel);
     }
 
     private void addButtons(JFrame frame) {
         JPanel panel = new JPanel();
         JButton start = new JButton("Start");
         start.setActionCommand("start");
-        panel.add(start);
         start.addActionListener(this);
         JButton pause = new JButton("Pause");
         pause.setActionCommand("pause");
         pause.addActionListener(this);
+        panel.add(start);
         panel.add(pause);
         frame.getContentPane().add(BorderLayout.SOUTH, panel); // Adds Button to content pane of frame
     }
 
     private void addTextArea(JFrame frame){
-        this.textArea = new JTextArea(5, 20);
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        JPanel textPanel = new JPanel();
+        this.textArea = new JTextArea(8, 30);
         textArea.setEditable(false);
-        frame.getContentPane().add(BorderLayout.CENTER, textArea);
+        textArea.setLineWrap(true);
+        textPanel.add(new JScrollPane(textArea));
+        frame.getContentPane().add(BorderLayout.NORTH, textPanel);
     }
 
     public void addTextToTextArea(JTextArea textArea, String text){
