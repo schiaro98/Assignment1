@@ -27,7 +27,7 @@ public class Controller {
 
     public void processEvent(String event) throws IOException {
         switch(event){
-            case "confirm":
+            case "start":
                 new documentReader("res/pdf/nomi.pdf",pagesMonitor);
                 /* System.out.println("Processors: " + processors+ " Pages: " + pages.size());
                 int qz = getPagesForThread(processors).get(0);
@@ -83,9 +83,6 @@ public class Controller {
                     manager.add(new Task(String.valueOf(p), nThread));
                 }
 
-                break;
-            case "start":
-                System.out.println("start action required");
                 break;
             case "pause":
                 System.out.println("pause action required");

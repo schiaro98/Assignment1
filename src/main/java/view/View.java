@@ -14,6 +14,8 @@ public class View extends JFrame implements ModelObserver, ActionListener {
     private final Controller controller;
     private static final int GLOBAL_WIDTH = 300;
     private static final int GLOBAL_HEIGHT = 300;
+    private static final String newline = "\n";
+    private JTextArea textArea;
 
     public View(Controller controller){
         this.controller = controller;
@@ -26,6 +28,7 @@ public class View extends JFrame implements ModelObserver, ActionListener {
         frame.setSize(GLOBAL_WIDTH, GLOBAL_HEIGHT);
         addDirectoryPanel(frame);
         addButtons(frame);
+        addTextArea(frame);
         frame.setVisible(true);
     }
 
@@ -33,26 +36,9 @@ public class View extends JFrame implements ModelObserver, ActionListener {
         JPanel dirPanel = new JPanel();
         JLabel directoryLabel = new JLabel("Set directory");
         JTextField directoryText = new JTextField("path/to/files",20);
-        JButton confirmButton = new JButton("Confirm...");
-        confirmButton.setActionCommand("confirm");
-        /*confirmButton.addActionListener(e -> {
-            try {
-                if(directoryText.getText().equals("path/to/files")){
-                    new Classifier("res/pdf/");
-                } else {
-                    directoryLabel.setText("Set directory");
-                    new Classifier(directoryText.getText());
-                }
-            } catch (Exception ioException) {
-                ioException.printStackTrace();
-                directoryLabel.setText("Unable to find directory... Retry");
-            }
-        });*/
-        confirmButton.addActionListener(this);
-        dirPanel.add(confirmButton);
         dirPanel.add(directoryLabel);
         dirPanel.add(directoryText);
-        frame.getContentPane().add(dirPanel);
+        frame.getContentPane().add(BorderLayout.NORTH, dirPanel);
     }
 
     private void addButtons(JFrame frame) {
@@ -68,6 +54,17 @@ public class View extends JFrame implements ModelObserver, ActionListener {
         frame.getContentPane().add(BorderLayout.SOUTH, panel); // Adds Button to content pane of frame
     }
 
+    private void addTextArea(JFrame frame){
+        this.textArea = new JTextArea(5, 20);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        textArea.setEditable(false);
+        frame.getContentPane().add(BorderLayout.CENTER, textArea);
+    }
+
+    public void addTextToTextArea(JTextArea textArea, String text){
+        textArea.append(text + newline);
+    }
+
     @Override
     public void updateModel(Model model) {
         //TODO io qua devo recuperare il rank aggiornato e metterlo nella gui
@@ -80,5 +77,9 @@ public class View extends JFrame implements ModelObserver, ActionListener {
         } catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public JTextArea getTextArea(){
+        return this.textArea;
     }
 }
