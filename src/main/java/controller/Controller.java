@@ -4,9 +4,14 @@ import main.java.model.*;
 
 import javax.swing.text.Document;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Controller {
 
@@ -24,13 +29,7 @@ public class Controller {
         switch(event){
             case "confirm":
                 new documentReader("res/pdf/nomi.pdf",pagesMonitor);
-                System.out.println("");
-                System.out.println("");
-                System.out.println(pagesMonitor.size());
-                System.out.println("");
-                System.out.println("");
-                System.out.println(pagesMonitor.getPage(7).getPage());
-               /* System.out.println("Processors: " + processors+ " Pages: " + pages.size());
+                /* System.out.println("Processors: " + processors+ " Pages: " + pages.size());
                 int qz = getPagesForThread(processors).get(0);
                 int resto = getPagesForThread(processors).get(1);
                 int acc = 0;
@@ -70,6 +69,20 @@ public class Controller {
                 System.out.println(monitor.viewMostFrequentN(10));
                 monitor.stamp();
                 pagesMonitor.clear();
+
+
+
+
+
+                //VERA IMPLEMENTAZIONE
+                Manager manager = new Manager();
+                int nThread = Runtime.getRuntime().availableProcessors();
+                String realPath = "res/pdf/";
+                Set<Path> paths = Files.walk(Paths.get(realPath)).filter(Files::isRegularFile).collect(Collectors.toSet());
+                for (Path p : paths) {
+                    manager.add(new Task(String.valueOf(p), nThread));
+                }
+
                 break;
             case "start":
                 System.out.println("start action required");
