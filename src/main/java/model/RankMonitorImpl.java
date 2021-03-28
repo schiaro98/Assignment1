@@ -5,17 +5,15 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
-public class RankMonitorImpl extends Model implements RankMonitor {
+public class RankMonitorImpl implements RankMonitor {
 
     private final HashMap<String, Integer> rank;
     private final Lock mutex;
     private boolean stop;
     private int totalWords;
-    private final List<ModelObserver> observers;
 
 
     public RankMonitorImpl(){
-        observers = new ArrayList<>();
         mutex = new ReentrantLock();
         rank = new HashMap<>();
         stop = false;
@@ -26,12 +24,10 @@ public class RankMonitorImpl extends Model implements RankMonitor {
     TODO nel thread faccio un controllo che la pagina deve avere almeno un carattere
         aka pagerank non vuoto
      */
-    @Override
     public boolean update(HashMap<String, Integer> pageRank) {
         try {
             mutex.lock();
             //serve la notify?
-            notifyObservers();
 			if(!stop){
                 for (String s: pageRank.keySet()) {
                     int instancesOfThisWord = pageRank.get(s);
@@ -50,7 +46,6 @@ public class RankMonitorImpl extends Model implements RankMonitor {
 		}
     }
 
-    @Override
     public HashMap<String, Integer> viewMostFrequentN(int n) {
         try{
             mutex.lock();
@@ -74,7 +69,7 @@ public class RankMonitorImpl extends Model implements RankMonitor {
             System.out.println("Word "+s+" appeared:   " +rank.get(s)+ " times." );
         }
     }
-    @Override
+
     public void stop() {
         try {
             mutex.lock();
@@ -83,11 +78,5 @@ public class RankMonitorImpl extends Model implements RankMonitor {
             mutex.unlock();
         }
 
-    }
-
-    private void notifyObservers(){
-        for (ModelObserver obs: observers){
-            obs.updateModel(this);
-        }
     }
 }

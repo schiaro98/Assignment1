@@ -1,15 +1,13 @@
 package main.java.view;
 
 import main.java.controller.Controller;
-import main.java.model.Model;
-import main.java.model.ModelObserver;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class View extends JFrame implements ModelObserver, ActionListener {
+public class View extends JFrame implements ActionListener {
 
     private final Controller controller;
     private static final int GLOBAL_WIDTH = 400;
@@ -37,7 +35,7 @@ public class View extends JFrame implements ModelObserver, ActionListener {
     private void addDirectoryPanel(JFrame frame){
         JPanel dirPanel = new JPanel();
         JLabel directoryLabel = new JLabel("Set directory");
-        directoryText = new JTextField("path/to/files",20);
+        directoryText = new JTextField("res/pdf",20);
         dirPanel.add(directoryLabel);
         dirPanel.add(directoryText);
         frame.getContentPane().add(BorderLayout.CENTER, dirPanel);
@@ -71,11 +69,6 @@ public class View extends JFrame implements ModelObserver, ActionListener {
 
     public String getDirectory(){
         return this.directoryText.getText();
-    }
-
-    @Override
-    public void updateModel(Model model) {
-        //TODO io qua devo recuperare il rank aggiornato e metterlo nella gui
     }
 
     @Override

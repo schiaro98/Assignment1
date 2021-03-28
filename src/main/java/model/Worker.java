@@ -36,30 +36,31 @@ public class Worker extends Thread{
             if (currentPage.isPresent() && !manager.isComputationStopped()){
                 analyze(currentPage.get());
             }
+            t.incThreadWhoAlreadyWorked();
         }
         System.out.println("Thread "+getName()+" completed his job... exiting");
     }
 
     private Optional<Page> read(Task task){
         try {
-
-
             long start = System.currentTimeMillis();
             PDDocument document = PDDocument.load(new File(task.getPath()));
-            if (document.getCurrentAccessPermission().canExtractContent()){
-                PDFTextStripper stripper = new PDFTextStripper();
-                var fromToMap = getRange(document.getNumberOfPages());
-                stripper.setStartPage(fromToMap.get("from"));
-                stripper.setEndPage(fromToMap.get("to"));
-                Page p = new Page(stripper.getText(document).trim());
-                document.close();
-                //System.out.println("Thread "+ getName()+ " read his part of the file");
-                long end = System.currentTimeMillis();
-                System.out.println("Thread "+ getName()+ " read file in "+ (end-start)+" millis");
-                return Optional.of(p);
-            }else{
-                System.out.println("Couldn't extract content of file");
-                return Optional.empty();
+            if (document.getNumberOfPages() >= Runtime.getRuntime().availableProcessors() || myPosition == 0){
+                if (document.getCurrentAccessPermission().canExtractContent()){
+                    PDFTextStripper stripper = new PDFTextStripper();
+                    var fromToMap = getRange(document.getNumberOfPages());
+                    stripper.setStartPage(fromToMap.get("from"));
+                    stripper.setEndPage(fromToMap.get("to"));
+                    Page p = new Page(stripper.getText(document).trim());
+                    document.close();
+                    //System.out.println("Thread "+ getName()+ " read his part of the file");
+                    long end = System.currentTimeMillis();
+                    System.out.println("Thread "+ getName()+ " read file "+ task.getPath()+" in "+ (end-start)+" millis");
+                    return Optional.of(p);
+                }else{
+                    System.out.println("Couldn't extract content of file");
+                    return Optional.empty();
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
