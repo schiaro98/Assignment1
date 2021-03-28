@@ -26,7 +26,7 @@ public class Page {
     public List<String> getRelevantWords(List<String> unwantedWords){
         this.page = page.toLowerCase();
         for(String s : unwantedWords){
-            page = page.replace(s.toLowerCase(), "");
+            page = page.replace(" "+s.toLowerCase()+" ", " ");
         }
         return Arrays.asList(page.split("\\W+"));
     }

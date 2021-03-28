@@ -14,38 +14,21 @@ public class Controller {
 
     private View view;
     private RankMonitor monitor;
+    private Manager manager;
     private int processors =  Runtime.getRuntime().availableProcessors();
 
     public Controller(){
         this.view = new View(this);
+        this.manager = new Manager();
+        this.monitor = new RankMonitorImpl();
     }
 
     public void processEvent(String event, String path) throws IOException {
         switch(event){
             case "start":
-               /* new documentReader("res/pdf/nomi.pdf",pagesMonitor);
-                //Faccio partire thread di analisi
-                for (int i = 0; i < pagesMonitor.size(); i++) {
-                    new AnalystWorker(String.valueOf(i), Arrays.asList(pagesMonitor.getPage(i)), monitor,
-                            Arrays.asList("cioCCOlata")).start();
-                }
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                HashMap<String, Integer> mostFrequent = monitor.viewMostFrequentN(10);
-                for (String s: mostFrequent.keySet()) {
-                    //Add in textarea
-                    view.addTextToTextArea(view.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
-                }
-                monitor.stamp();
-                pagesMonitor.clear();*/
-
-
                 //VERA IMPLEMENTAZIONE
-                Manager manager = new Manager();
-                monitor = new RankMonitorImpl();
+                manager.clear();
+                monitor.reset();
                 int nThread = Runtime.getRuntime().availableProcessors();
                 path = cleanPath(path);
                 Set<Path> paths = Files.walk(Paths.get(path))
@@ -57,7 +40,7 @@ public class Controller {
                     new Worker(String.valueOf(i), i, manager, monitor, Arrays.asList("a", "b", "c", "d")).start();
                 }
                 try {
-                    Thread.sleep(1000);
+                    Thread.sleep(2000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -68,9 +51,7 @@ public class Controller {
 
                 break;
             case "stop":
-                /*
-                TODO collegare action di stop del thread
-                 */
+                manager.stop();
                 break;
             default:
                 throw new IllegalStateException("Error on action!");

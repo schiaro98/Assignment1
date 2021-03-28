@@ -43,6 +43,11 @@ public class Task {
 
     //non serve la mutex tanto il campo e' immutabile
     public String getPath(){
-        return  this.path;
+        try{
+            mutex.lock();
+            return  this.path;
+        }finally {
+            mutex.unlock();
+        }
     }
 }

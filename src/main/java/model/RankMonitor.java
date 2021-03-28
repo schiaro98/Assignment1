@@ -8,6 +8,8 @@ public interface RankMonitor {
 
     HashMap<String, Integer> viewMostFrequentN(int n);
 
+    void reset();
+
     void stop();
 
     //TODO delete stamp()

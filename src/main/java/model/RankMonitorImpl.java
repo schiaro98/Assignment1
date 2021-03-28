@@ -27,7 +27,6 @@ public class RankMonitorImpl implements RankMonitor {
     public boolean update(HashMap<String, Integer> pageRank) {
         try {
             mutex.lock();
-            //serve la notify?
 			if(!stop){
                 for (String s: pageRank.keySet()) {
                     int instancesOfThisWord = pageRank.get(s);
@@ -60,6 +59,16 @@ public class RankMonitorImpl implements RankMonitor {
             sorted.put("TOTAL_WORDS", totalWords);
             return sorted;
         } finally {
+            mutex.unlock();
+        }
+    }
+
+    @Override
+    public void reset() {
+        try {
+            mutex.lock();
+            rank.clear();
+        }finally {
             mutex.unlock();
         }
     }

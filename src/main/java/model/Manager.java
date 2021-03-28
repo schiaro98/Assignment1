@@ -66,4 +66,15 @@ public class Manager{
             mutex.unlock();
         }
     }
+
+    public void clear(){
+        try{
+            mutex.lock();
+            this.tasks.clear();
+            this.stop = false;
+        } finally {
+            mutex.unlock();
+        }
+
+    }
 }
