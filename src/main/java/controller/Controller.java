@@ -1,20 +1,19 @@
 package main.java.controller;
 
 import main.java.model.*;
+import main.java.view.View;
 
 import javax.swing.text.Document;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Controller {
 
+    private View view;
     private Model model;
     private List<Page> pages;
     private RankMonitor monitor = new RankMonitorImpl();
@@ -23,6 +22,7 @@ public class Controller {
 
     public Controller(RankMonitorImpl model){
         this.model = model;
+        this.view = new View(this);
     }
 
     public void processEvent(String event) throws IOException {
@@ -66,7 +66,11 @@ public class Controller {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                System.out.println(monitor.viewMostFrequentN(10));
+                HashMap<String, Integer> mostFrequent = monitor.viewMostFrequentN(10);
+                for (String s: mostFrequent.keySet()) {
+                    //Add in textarea
+                    view.addTextToTextArea(view.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
+                }
                 monitor.stamp();
                 pagesMonitor.clear();
 
