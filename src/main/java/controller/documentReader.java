@@ -53,8 +53,9 @@ public class documentReader extends PDFTextStripper{
         int acc = 0;
         new ReaderWorker("0", acc,(acc+qz+resto), pagesMonitor, path).start();
         acc += qz+resto;
+        //System.out.println("first reader has from 0 to "+ acc);
         for (int i = 1; i <  Runtime.getRuntime().availableProcessors(); i++) {
-            System.out.println("Thread "+String.valueOf(i)+ " has pages from "+acc+" to "+(acc+qz) );
+            //System.out.println("Thread "+String.valueOf(i)+ " has pages from "+acc+" to "+(acc+qz) );
             new ReaderWorker(String.valueOf(i), acc,(acc+qz), pagesMonitor, path).start();
             acc = acc+qz;
         }

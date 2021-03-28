@@ -13,4 +13,6 @@ public interface PagesMonitor {
     int size();
 
     Page getPage(int index);
+
+    void clear();
 }

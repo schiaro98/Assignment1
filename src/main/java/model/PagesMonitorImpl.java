@@ -64,4 +64,9 @@ public class PagesMonitorImpl implements PagesMonitor{
             mutex.unlock();
         }
     }
+
+    @Override
+    public void clear() {
+        pages.clear();
+    }
 }

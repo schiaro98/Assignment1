@@ -23,13 +23,13 @@ public class Controller {
     public void processEvent(String event) throws IOException {
         switch(event){
             case "confirm":
-                new documentReader("res/pdf/prova_ricci.pdf",pagesMonitor);
+                new documentReader("res/pdf/nomi.pdf",pagesMonitor);
                 System.out.println("");
                 System.out.println("");
                 System.out.println(pagesMonitor.size());
                 System.out.println("");
                 System.out.println("");
-
+                System.out.println(pagesMonitor.getPage(7).getPage());
                /* System.out.println("Processors: " + processors+ " Pages: " + pages.size());
                 int qz = getPagesForThread(processors).get(0);
                 int resto = getPagesForThread(processors).get(1);
@@ -60,7 +60,7 @@ public class Controller {
                 //Faccio partire thread di analisi
                 for (int i = 0; i < pagesMonitor.size(); i++) {
                     new AnalystWorker(String.valueOf(i), Arrays.asList(pagesMonitor.getPage(i)), monitor,
-                            Arrays.asList("XX")).start();
+                            Arrays.asList("cioCCOlata")).start();
                 }
                 try {
                     Thread.sleep(500);
@@ -69,6 +69,7 @@ public class Controller {
                 }
                 System.out.println(monitor.viewMostFrequentN(10));
                 monitor.stamp();
+                pagesMonitor.clear();
                 break;
             case "start":
                 System.out.println("start action required");

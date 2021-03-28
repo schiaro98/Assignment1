@@ -31,7 +31,7 @@ public class AnalystWorker extends Thread{
             for (String word : words){
                 update(word);
                 end = System.currentTimeMillis();
-                if (end-start > MAX_TO_WAIT_BEFORE_UPDATING){
+                if (end-start > MAX_TO_WAIT_BEFORE_UPDATING && false){
                     if (!rankMonitor.update(pageRank)){
                         //se torno falso smetto
                         System.out.println("program stopped");
