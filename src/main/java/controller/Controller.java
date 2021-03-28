@@ -3,7 +3,6 @@ package main.java.controller;
 import main.java.model.*;
 import main.java.view.View;
 
-import javax.swing.text.Document;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,12 +19,12 @@ public class Controller {
     private PagesMonitor pagesMonitor = new PagesMonitorImpl();
     private int processors =  Runtime.getRuntime().availableProcessors();
 
-    public Controller(RankMonitorImpl model){
+    public Controller(Model model){
         this.model = model;
         this.view = new View(this);
     }
 
-    public void processEvent(String event) throws IOException {
+    public void processEvent(String event, String path) throws IOException {
         switch(event){
             case "start":
                 new documentReader("res/pdf/nomi.pdf",pagesMonitor);
@@ -81,19 +80,31 @@ public class Controller {
                 //VERA IMPLEMENTAZIONE
                 Manager manager = new Manager();
                 int nThread = Runtime.getRuntime().availableProcessors();
-                String realPath = "res/pdf/";
-                Set<Path> paths = Files.walk(Paths.get(realPath)).filter(Files::isRegularFile).collect(Collectors.toSet());
-                for (Path p : paths) {
-                    manager.add(new Task(String.valueOf(p), nThread));
-                }
-
+                path = cleanPath(path);
+                Set<Path> paths = Files.walk(Paths.get(path))
+                        .filter(Files::isRegularFile)
+                        .collect(Collectors.toSet());
+                paths.forEach(p ->  manager.add(new Task(String.valueOf(p), nThread)));
                 break;
-            case "pause":
-                System.out.println("pause action required");
+            case "stop":
+                /*
+                TODO collegare action di stop del thread
+                 */
                 break;
             default:
                 throw new IllegalStateException("Error on action!");
         }
+    }
+
+    private String cleanPath(String path) {
+        if(path.startsWith("/")){
+            path = path.substring(1);
+        }
+        if(path.endsWith("/")){
+            path = path.substring(0,path.length()-1);
+        }
+        System.out.println(path);
+        return path;
     }
 
     private List<Integer> getPagesForThread(int numOfThreads){

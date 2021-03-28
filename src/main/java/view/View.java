@@ -16,6 +16,7 @@ public class View extends JFrame implements ModelObserver, ActionListener {
     private static final int GLOBAL_HEIGHT = 400;
     private static final String newline = "\n";
     private JTextArea textArea;
+    private JTextField directoryText;
 
     public View(Controller controller){
         this.controller = controller;
@@ -36,7 +37,7 @@ public class View extends JFrame implements ModelObserver, ActionListener {
     private void addDirectoryPanel(JFrame frame){
         JPanel dirPanel = new JPanel();
         JLabel directoryLabel = new JLabel("Set directory");
-        JTextField directoryText = new JTextField("path/to/files",20);
+        directoryText = new JTextField("path/to/files",20);
         dirPanel.add(directoryLabel);
         dirPanel.add(directoryText);
         frame.getContentPane().add(BorderLayout.CENTER, dirPanel);
@@ -47,11 +48,11 @@ public class View extends JFrame implements ModelObserver, ActionListener {
         JButton start = new JButton("Start");
         start.setActionCommand("start");
         start.addActionListener(this);
-        JButton pause = new JButton("Pause");
-        pause.setActionCommand("pause");
-        pause.addActionListener(this);
+        JButton stop = new JButton("Stop");
+        stop.setActionCommand("stop");
+        stop.addActionListener(this);
         panel.add(start);
-        panel.add(pause);
+        panel.add(stop);
         frame.getContentPane().add(BorderLayout.SOUTH, panel); // Adds Button to content pane of frame
     }
 
@@ -68,6 +69,10 @@ public class View extends JFrame implements ModelObserver, ActionListener {
         textArea.append(text + newline);
     }
 
+    public String getDirectory(){
+        return this.directoryText.getText();
+    }
+
     @Override
     public void updateModel(Model model) {
         //TODO io qua devo recuperare il rank aggiornato e metterlo nella gui
@@ -76,7 +81,7 @@ public class View extends JFrame implements ModelObserver, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            controller.processEvent(e.getActionCommand());
+            controller.processEvent(e.getActionCommand(), getDirectory());
         } catch (Exception ex){
             ex.printStackTrace();
         }
