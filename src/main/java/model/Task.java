@@ -5,7 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Task {
 
-    private String path;
+    private final String path;
     private final int maxNumberOfThread;
     private int threadWhoAlreadyWorked;
     private boolean done;
@@ -41,4 +41,8 @@ public class Task {
         }
     }
 
+    //non serve la mutex tanto il campo e' immutabile
+    public String getPath(){
+        return  this. getPath();
+    }
 }
