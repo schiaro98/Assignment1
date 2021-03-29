@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public class Manager{
 
-    private List<Task> tasks = new LinkedList<>();
+    private final List<Task> tasks = new LinkedList<>();
     private final Lock mutex;
     private boolean stop = false;
 

@@ -9,7 +9,7 @@ public class Task {
     private final int maxNumberOfThread;
     private int threadWhoAlreadyWorked;
     private boolean done;
-    private Lock mutex;
+    private final Lock mutex;
 
     public Task(String path, int numberOfThread) {
         this.path = path;

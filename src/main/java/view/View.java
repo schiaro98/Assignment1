@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class View extends JFrame implements ActionListener {
 
@@ -73,11 +74,13 @@ public class View extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        try {
-            controller.processEvent(e.getActionCommand(), getDirectory());
-        } catch (Exception ex){
-            ex.printStackTrace();
-        }
+        SwingUtilities.invokeLater(()->{
+            try {
+                controller.processEvent(e.getActionCommand(), getDirectory());
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+        });
     }
 
     public JTextArea getTextArea(){

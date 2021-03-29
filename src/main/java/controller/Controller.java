@@ -12,10 +12,10 @@ import java.util.stream.Collectors;
 
 public class Controller {
 
-    private View view;
-    private RankMonitor monitor;
-    private Manager manager;
-    private int processors =  Runtime.getRuntime().availableProcessors();
+    private final View view;
+    private final RankMonitor monitor;
+    private final Manager manager;
+    private final int processors =  Runtime.getRuntime().availableProcessors();
 
     public Controller(){
         this.view = new View(this);
@@ -24,32 +24,38 @@ public class Controller {
     }
 
     public void processEvent(String event, String path) throws IOException {
+        final String pathFinal = cleanPath(path);
         switch(event){
             case "start":
-                //VERA IMPLEMENTAZIONE
-                manager.clear();
-                monitor.reset();
-                int nThread = Runtime.getRuntime().availableProcessors();
-                path = cleanPath(path);
-                Set<Path> paths = Files.walk(Paths.get(path))
-                        .filter(Files::isRegularFile)
-                        .collect(Collectors.toSet());
-                paths.forEach(p ->  manager.add(new Task(String.valueOf(p), nThread)));
-
-                for (int i = 0; i < processors; i++) {
-                    new Worker(String.valueOf(i), i, manager, monitor, Arrays.asList("a", "b", "c", "d")).start();
-                }
                 try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                HashMap<String, Integer> mostFrequent = monitor.viewMostFrequentN(10);
-                for (String s: mostFrequent.keySet()) {
-                    view.addTextToTextArea(view.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
-                }
+                    new Thread(() -> {
+                        //VERA IMPLEMENTAZIONE
+                        manager.clear();
+                        monitor.reset();
+                        int nThread = Runtime.getRuntime().availableProcessors();
+                        Set<Path> paths = null;
+                        try {
+                            paths = Files.walk(Paths.get(pathFinal))
+                                    .filter(Files::isRegularFile)
+                                    .collect(Collectors.toSet());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        paths.forEach(p ->  manager.add(new Task(String.valueOf(p), nThread)));
 
+                        for (int i = 0; i < processors; i++) {
+                            new Worker(String.valueOf(i), i, manager, monitor, Arrays.asList("a", "b", "c", "d")).start();
+                        }
+                        HashMap<String, Integer> mostFrequent = monitor.viewMostFrequentN(10);
+                        for (String s: mostFrequent.keySet()) {
+                            view.addTextToTextArea(view.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
+                        }
+                    }).start();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
                 break;
+
             case "stop":
                 manager.stop();
                 break;

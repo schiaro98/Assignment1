@@ -35,6 +35,8 @@ public class Worker extends Thread{
             }
             if (currentPage.isPresent() && !manager.isComputationStopped()){
                 analyze(currentPage.get());
+            } else if (manager.isComputationStopped()){
+                System.out.println("Thread "+getName()+" STOPPED FROM MANAGER");
             }
             t.incThreadWhoAlreadyWorked();
         }
