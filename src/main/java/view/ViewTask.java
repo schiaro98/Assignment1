@@ -11,16 +11,19 @@ public class ViewTask extends TimerTask {
     private HashMap<String, Integer> mostFrequent;
     private final RankMonitor monitor;
     private final View view;
+    private Manager manager;
 
     public ViewTask(View view, RankMonitor monitor, Manager manager){
         this.view = view;
         this.monitor = monitor;
+        this.manager = manager;
         mostFrequent = new HashMap<>();
     }
 
     @Override
     public void run() {
         /*if(manager.isDone()){
+            view.setStartButtonStatus(true);
             this.cancel();
         }*/
         mostFrequent = monitor.viewMostFrequentN(10);

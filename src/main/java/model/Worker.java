@@ -48,17 +48,20 @@ public class Worker extends Thread{
             long start = System.currentTimeMillis();
             PDDocument document = PDDocument.load(new File(task.getPath()));
             int numberOfThreads = Runtime.getRuntime().availableProcessors();
+            Optional<Page> extractedPage = Optional.empty();
             if (document.getNumberOfPages() >= numberOfThreads){
                 System.out.println("Thread "+getName()+" begun to read file "+ task.getPath()+ "with "+document.getNumberOfPages()+" pages");
                 var fromToMap = getRange(document.getNumberOfPages());
-                return extractPage(document,fromToMap.get("from"),fromToMap.get("to"));
+                extractedPage = extractPage(document,fromToMap.get("from"),fromToMap.get("to"));
             }else if (document.getNumberOfPages() < numberOfThreads && myPosition == 0){
                 //se lavoro da solo setto il task unavailable per gli altri
                 task.setUnavailable();
                 task.workAlone();
                 System.out.println("Thread "+getName()+" begun to read file "+ task.getPath());
-                return extractPage(document, 1, document.getNumberOfPages());
+                extractedPage = extractPage(document, 1, document.getNumberOfPages());
             }
+            document.close();
+            return extractedPage;
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error: file not found");
@@ -72,7 +75,6 @@ public class Worker extends Thread{
             stripper.setStartPage(from);
             stripper.setEndPage(to);
             Page p = new Page(stripper.getText(document).trim());
-            document.close();
             //System.out.println("Thread "+ getName()+ " read his part of the file");
             return Optional.of(p);
         }else{

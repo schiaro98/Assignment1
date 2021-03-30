@@ -29,6 +29,7 @@ public class Controller {
         final int nThread = Runtime.getRuntime().availableProcessors();
         switch(event){
             case "start":
+                view.setStartButtonStatus(false);
                 try {
                     new Thread(() -> {
                         //VERA IMPLEMENTAZIONE
@@ -65,6 +66,7 @@ public class Controller {
             case "stop":
                 manager.stop();
                 view.cancelTimer();
+                view.setStartButtonStatus(true);
                 break;
             default:
                 throw new IllegalStateException("Error on action!");

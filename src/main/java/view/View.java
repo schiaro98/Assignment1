@@ -13,13 +13,14 @@ import java.util.Timer;
 public class View extends JFrame implements ActionListener {
 
     private final Controller controller;
-    private static final int GLOBAL_WIDTH = 400;
-    private static final int GLOBAL_HEIGHT = 400;
+    private static final int GLOBAL_WIDTH = 500;
+    private static final int GLOBAL_HEIGHT = 500;
     private static final String newline = "\n";
     private JTextArea textArea;
     private JTextField directoryText;
     private JTextField wordsCounterText;
     private JTextField ignoreText;
+    private JButton start;
 
     final Timer timer = new Timer();
 
@@ -27,7 +28,7 @@ public class View extends JFrame implements ActionListener {
         JFrame frame = new JFrame("WordsCounter");
         prepareFrame(frame);
         this.controller = controller;
-        timer.scheduleAtFixedRate(new ViewTask(this, monitor, manager), 100, 50);
+        timer.scheduleAtFixedRate(new ViewTask(this, monitor, manager), 50, 20);
     }
 
     public void prepareFrame(JFrame frame) {
@@ -60,7 +61,7 @@ public class View extends JFrame implements ActionListener {
 
     private void addButtons(JFrame frame) {
         JPanel panel = new JPanel();
-        JButton start = new JButton("Start");
+        start = new JButton("Start");
         start.setActionCommand("start");
         start.addActionListener(this);
         JButton stop = new JButton("Stop");
@@ -73,7 +74,7 @@ public class View extends JFrame implements ActionListener {
 
     private void addTextArea(JFrame frame){
         JPanel textPanel = new JPanel();
-        this.textArea = new JTextArea(8, 30);
+        this.textArea = new JTextArea(20, 30);
         textArea.setEditable(false);
         textArea.setLineWrap(true);
         textPanel.add(new JScrollPane(textArea));
@@ -108,4 +109,9 @@ public class View extends JFrame implements ActionListener {
     public String getIgnorePath(){
         return this.ignoreText.getText();
     }
+
+    public void setStartButtonStatus(boolean status){
+        this.start.setEnabled(status);
+    }
+
 }

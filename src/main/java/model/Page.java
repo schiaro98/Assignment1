@@ -2,7 +2,6 @@ package main.java.model;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public class Page {
 
@@ -25,8 +24,10 @@ public class Page {
      */
     public List<String> getRelevantWords(List<String> unwantedWords){
         this.page = page.toLowerCase();
+        this.page = page.replaceAll("[^\\p{L}\\p{Nd}]+", " ");
         for(String s : unwantedWords){
-            page = page.replace(" "+s.toLowerCase()+" ", " ");
+            page = page.replaceAll( " "+s.toLowerCase()+ " " , " " );
+//            page = page.replace(" "+s.toLowerCase()+" ", " ");
         }
         return Arrays.asList(page.split("\\W+"));
     }
