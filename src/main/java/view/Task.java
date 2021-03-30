@@ -19,8 +19,11 @@ public class Task extends TimerTask {
     @Override
     public void run() {
         mostFrequent = monitor.viewMostFrequentN(10);
+        int totalOfWords = mostFrequent.get("TOTAL_WORDS");
+        mostFrequent.remove("TOTAL_WORDS");
         for (String s: mostFrequent.keySet()) {
             view.addTextToTextArea(view.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
         }
+        view.updateWordsCounter(totalOfWords);
     }
 }

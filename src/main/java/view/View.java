@@ -18,6 +18,7 @@ public class View extends JFrame implements ActionListener {
     private static final String newline = "\n";
     private JTextArea textArea;
     private JTextField directoryText;
+    private JTextField wordsCounterText;
     private final RankMonitor monitor;
 
     public View(Controller controller, RankMonitor monitor){
@@ -34,17 +35,22 @@ public class View extends JFrame implements ActionListener {
         frame.setSize(GLOBAL_WIDTH, GLOBAL_HEIGHT);
         frame.getContentPane().setLayout(new BorderLayout());
         addTextArea(frame);
-        addDirectoryPanel(frame);
+        addDirectory(frame);
         addButtons(frame);
         frame.setVisible(true);
     }
 
-    private void addDirectoryPanel(JFrame frame){
+    private void addDirectory(JFrame frame){
         JPanel dirPanel = new JPanel();
         JLabel directoryLabel = new JLabel("Set directory");
         directoryText = new JTextField("res/pdf",20);
+        JLabel numOfWordsCounted = new JLabel("Number of words: ");
+        wordsCounterText = new JTextField("", 20);
+        wordsCounterText.setEditable(false);
         dirPanel.add(directoryLabel);
         dirPanel.add(directoryText);
+        dirPanel.add(numOfWordsCounted);
+        dirPanel.add(wordsCounterText);
         frame.getContentPane().add(BorderLayout.CENTER, dirPanel);
     }
 
@@ -72,6 +78,10 @@ public class View extends JFrame implements ActionListener {
 
     public void addTextToTextArea(JTextArea textArea, String text){
         textArea.append(text + newline);
+    }
+
+    public void updateWordsCounter(int value){
+        this.wordsCounterText.setText(String.valueOf(value));
     }
 
     public String getDirectory(){
