@@ -1,12 +1,13 @@
 package main.java.model;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 public interface RankMonitor {
 
     boolean update(HashMap<String, Integer> pageRank);
 
-    HashMap<String, Integer> viewMostFrequentN(int n);
+    LinkedHashMap<String, Integer> viewMostFrequentN(int n);
 
     void reset();
 

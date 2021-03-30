@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public class Worker extends Thread{
 
-    private final int MAX_TO_WAIT_BEFORE_UPDATING = 500;
+    private static final int MAX_TO_WAIT_BEFORE_UPDATING = 500;
     private final Manager manager;
     private final RankMonitor rankMonitor;
     private final int myPosition;
@@ -29,16 +29,16 @@ public class Worker extends Thread{
     @Override
     public void run() {
         for (Task t : manager.getTasks()){
-            Optional<Page> currentPage = Optional.empty();
-            if (!manager.isComputationStopped()){
-                currentPage = read(t);
+            if(!t.isDone() && t.isAvailable()){
+                Optional<Page> currentPage = Optional.empty();
+                if (!manager.isComputationStopped()){
+                    currentPage = read(t);
+                }
+                if (currentPage.isPresent() && !manager.isComputationStopped()){
+                    analyze(currentPage.get());
+                }
+                t.incThreadWhoAlreadyWorked();
             }
-            if (currentPage.isPresent() && !manager.isComputationStopped()){
-                analyze(currentPage.get());
-            } else if (manager.isComputationStopped()){
-                System.out.println("Thread "+getName()+" STOPPED FROM MANAGER");
-            }
-            t.incThreadWhoAlreadyWorked();
         }
         System.out.println("Thread "+getName()+" completed his job... exiting");
     }
@@ -47,28 +47,38 @@ public class Worker extends Thread{
         try {
             long start = System.currentTimeMillis();
             PDDocument document = PDDocument.load(new File(task.getPath()));
-            if (document.getNumberOfPages() >= Runtime.getRuntime().availableProcessors() || myPosition == 0){
-                if (document.getCurrentAccessPermission().canExtractContent()){
-                    PDFTextStripper stripper = new PDFTextStripper();
-                    var fromToMap = getRange(document.getNumberOfPages());
-                    stripper.setStartPage(fromToMap.get("from"));
-                    stripper.setEndPage(fromToMap.get("to"));
-                    Page p = new Page(stripper.getText(document).trim());
-                    document.close();
-                    //System.out.println("Thread "+ getName()+ " read his part of the file");
-                    long end = System.currentTimeMillis();
-                    System.out.println("Thread "+ getName()+ " read file "+ task.getPath()+" in "+ (end-start)+" millis");
-                    return Optional.of(p);
-                }else{
-                    System.out.println("Couldn't extract content of file");
-                    return Optional.empty();
-                }
+            int numberOfThreads = Runtime.getRuntime().availableProcessors();
+            if (document.getNumberOfPages() >= numberOfThreads){
+                System.out.println("Thread "+getName()+" begun to read file "+ task.getPath()+ "with "+document.getNumberOfPages()+" pages");
+                var fromToMap = getRange(document.getNumberOfPages());
+                return extractPage(document,fromToMap.get("from"),fromToMap.get("to"));
+            }else if (document.getNumberOfPages() < numberOfThreads && myPosition == 0){
+                //se lavoro da solo setto il task unavailable per gli altri
+                task.setUnavailable();
+                task.workAlone();
+                System.out.println("Thread "+getName()+" begun to read file "+ task.getPath());
+                return extractPage(document, 1, document.getNumberOfPages());
             }
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("Error: file not found");
         }
         return Optional.empty();
+    }
+
+    Optional<Page> extractPage(PDDocument document, int from, int to) throws IOException {
+        if (document.getCurrentAccessPermission().canExtractContent()){
+            PDFTextStripper stripper = new PDFTextStripper();
+            stripper.setStartPage(from);
+            stripper.setEndPage(to);
+            Page p = new Page(stripper.getText(document).trim());
+            document.close();
+            //System.out.println("Thread "+ getName()+ " read his part of the file");
+            return Optional.of(p);
+        }else{
+            System.out.println("Couldn't extract content of file");
+            return Optional.empty();
+        }
     }
 
     private void analyze(Page page){

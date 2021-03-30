@@ -10,6 +10,7 @@ public class Task {
     private int threadWhoAlreadyWorked;
     private boolean done;
     private final Lock mutex;
+    private boolean available;
 
     public Task(String path, int numberOfThread) {
         this.path = path;
@@ -17,6 +18,7 @@ public class Task {
         this.threadWhoAlreadyWorked = 0;
         this.mutex = new ReentrantLock();
         this.maxNumberOfThread = numberOfThread;
+        this.available = true;
     }
 
     public void incThreadWhoAlreadyWorked(){
@@ -29,7 +31,34 @@ public class Task {
         }finally {
             mutex.unlock();
         }
+    }
 
+    public boolean isAvailable(){
+        try {
+            mutex.lock();
+            return this.available;
+        }finally {
+            mutex.unlock();
+        }
+    }
+
+    public void setUnavailable(){
+        try {
+            mutex.lock();
+            this.available = false;
+        }finally {
+            mutex.unlock();
+        }
+    }
+
+    //setta il numero di thread al max -1 cosi quando viene chiamata la inc si completa il task
+    public void workAlone(){
+        try {
+            mutex.lock();
+            this.threadWhoAlreadyWorked = maxNumberOfThread - 1;
+        }finally {
+            mutex.unlock();
+        }
     }
 
     public boolean isDone(){

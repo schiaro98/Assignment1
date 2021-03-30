@@ -61,7 +61,7 @@ public class Manager{
     public boolean isComputationStopped(){
         try{
             mutex.lock();
-            return  this.stop;
+            return this.stop;
         } finally {
             mutex.unlock();
         }

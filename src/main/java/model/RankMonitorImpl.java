@@ -43,18 +43,27 @@ public class RankMonitorImpl implements RankMonitor {
 		}
     }
 
-    public HashMap<String, Integer> viewMostFrequentN(int n) {
+    public LinkedHashMap<String, Integer> viewMostFrequentN(int n) {
         try{
             mutex.lock();
-            HashMap<String, Integer> sortedMap = new HashMap<>();
+            LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
 
             rank.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                     .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
 
-            HashMap<String, Integer> sorted = sortedMap.entrySet().stream().limit(n)
-                    .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
+
+            var sorted = new LinkedHashMap<String,Integer>();
+            int i = 0;
+            Iterator<String> iterator = sortedMap.keySet().iterator();
+            while (iterator.hasNext() && i<n){
+                String s = iterator.next();
+                sorted.put(s, sortedMap.get(s));
+                i++;
+            }
+            /*HashMap<String, Integer> sorted = sortedMap.entrySet().stream().limit(n)
+                    .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);*/
             sorted.put("TOTAL_WORDS", totalWords);
             return sorted;
         } finally {
