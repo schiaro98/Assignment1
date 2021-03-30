@@ -48,12 +48,13 @@ public class RankMonitorImpl implements RankMonitor {
     public HashMap<String, Integer> viewMostFrequentN(int n) {
         try{
             mutex.lock();
-            Map<String, Integer> sortedMap = rank
-                    .entrySet()
+            HashMap<String, Integer> sortedMap = new HashMap<>();
+
+            rank.entrySet()
                     .stream()
-                    .sorted(Map.Entry.comparingByValue())
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue,
-                            (e1, e2) -> e1, LinkedHashMap::new));
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+
             HashMap<String, Integer> sorted = sortedMap.entrySet().stream().limit(n)
                     .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);
             sorted.put("TOTAL_WORDS", totalWords);
