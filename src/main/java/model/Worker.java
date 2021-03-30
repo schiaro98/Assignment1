@@ -5,6 +5,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -110,7 +111,7 @@ public class Worker extends Thread{
 
     private HashMap<String, Integer> getRange(int numberOfPages){
         HashMap<String, Integer> fromToMap = new HashMap<>();
-        var qzAndResto = new Utility().divideEqually(numberOfPages);
+        var qzAndResto = divideEqually(numberOfPages);
         int qz = qzAndResto.get(0);
         int remaining = qzAndResto.get(1);
         if (myPosition == 0){
@@ -124,5 +125,12 @@ public class Worker extends Thread{
             fromToMap.put("to", to);
         }
         return  fromToMap;
+    }
+    private List<Integer> divideEqually(int divideEqually){
+        int numOfThreads =  Runtime.getRuntime().availableProcessors();
+        List<Integer> pagesForThread = new ArrayList<>();
+        pagesForThread.add(divideEqually / numOfThreads);
+        pagesForThread.add(divideEqually % numOfThreads);
+        return pagesForThread;
     }
 }

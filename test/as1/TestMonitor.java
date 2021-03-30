@@ -1,6 +1,5 @@
 package as1;
 
-import main.java.model.AnalystWorker;
 import main.java.model.Page;
 import main.java.model.RankMonitor;
 import main.java.model.RankMonitorImpl;
@@ -29,7 +28,7 @@ public class TestMonitor {
         List<Page> pages = new LinkedList<>();
         for (int i = 0; i < 400; i++) {
             pages.add(new Page("prova, prova, prova, prova, prova, prova, prova, gatto, prova, prova, prova"));
-            pages.add(new Page("pisello, pisello, pisello, pisello, pisello"));
+            pages.add(new Page("casello, casello, casello, casello, casello"));
         }
         new AnalystWorker("1", pages.subList(0,200),monitor,Arrays.asList("gatto")).start();
         new AnalystWorker("2", pages.subList(200,400),monitor,Arrays.asList("gatto")).start();
