@@ -24,6 +24,7 @@ public class Controller {
 
     public void processEvent(String event, String path){
         final String pathFinal = cleanPath(path);
+        final int nThread = Runtime.getRuntime().availableProcessors();
         switch(event){
             case "start":
                 try {
@@ -31,7 +32,6 @@ public class Controller {
                         //VERA IMPLEMENTAZIONE
                         manager.clear();
                         monitor.reset();
-                        int nThread = Runtime.getRuntime().availableProcessors();
                         try {
                             Files.walk(Paths.get(pathFinal))
                                     .filter(Files::isRegularFile)

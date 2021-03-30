@@ -13,19 +13,17 @@ import java.util.Timer;
 public class View extends JFrame implements ActionListener {
 
     private final Controller controller;
-    private final Manager manager;
     private static final int GLOBAL_WIDTH = 400;
     private static final int GLOBAL_HEIGHT = 400;
     private static final String newline = "\n";
     private JTextArea textArea;
     private JTextField directoryText;
     private JTextField wordsCounterText;
-    Timer timer = new Timer();
+    final Timer timer = new Timer();
 
     public View(Controller controller, RankMonitor monitor, Manager manager){
         JFrame frame = new JFrame("WordsCounter");
         prepareFrame(frame);
-        this.manager = manager;
         this.controller = controller;
         timer.scheduleAtFixedRate(new ViewTask(this, monitor, manager), 100, 50);
     }
@@ -90,9 +88,7 @@ public class View extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        SwingUtilities.invokeLater(()->{
-            controller.processEvent(e.getActionCommand(), getDirectory());
-        });
+        SwingUtilities.invokeLater(()-> controller.processEvent(e.getActionCommand(), getDirectory()));
     }
 
     public JTextArea getTextArea(){
