@@ -1,24 +1,30 @@
 package main.java.view;
 
+import main.java.model.Manager;
 import main.java.model.RankMonitor;
 
 import java.util.HashMap;
 import java.util.TimerTask;
 
-public class Task extends TimerTask {
+public class ViewTask extends TimerTask {
 
     private HashMap<String, Integer> mostFrequent;
     private final RankMonitor monitor;
     private final View view;
+    private final Manager manager;
 
-    public Task(View view, RankMonitor monitor){
+    public ViewTask(View view, RankMonitor monitor, Manager manager){
         this.view = view;
         this.monitor = monitor;
+        this.manager = manager;
         mostFrequent = new HashMap<>();
     }
 
     @Override
     public void run() {
+        /*if(manager.isDone()){
+            this.cancel();
+        }*/
         mostFrequent = monitor.viewMostFrequentN(10);
         int totalOfWords = mostFrequent.get("TOTAL_WORDS");
         mostFrequent.remove("TOTAL_WORDS");

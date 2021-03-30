@@ -1,18 +1,19 @@
 package main.java.view;
 
 import main.java.controller.Controller;
+import main.java.model.Manager;
 import main.java.model.RankMonitor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.Timer;
 
 public class View extends JFrame implements ActionListener {
 
     private final Controller controller;
+    private final Manager manager;
     private static final int GLOBAL_WIDTH = 400;
     private static final int GLOBAL_HEIGHT = 400;
     private static final String newline = "\n";
@@ -21,11 +22,12 @@ public class View extends JFrame implements ActionListener {
     private JTextField wordsCounterText;
     Timer timer = new Timer();
 
-    public View(Controller controller, RankMonitor monitor){
+    public View(Controller controller, RankMonitor monitor, Manager manager){
         JFrame frame = new JFrame("WordsCounter");
         prepareFrame(frame);
+        this.manager = manager;
         this.controller = controller;
-        timer.scheduleAtFixedRate(new Task(this, monitor), 100, 50);
+        timer.scheduleAtFixedRate(new ViewTask(this, monitor, manager), 100, 50);
     }
 
     public void prepareFrame(JFrame frame) {
@@ -89,11 +91,7 @@ public class View extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         SwingUtilities.invokeLater(()->{
-            try {
-                controller.processEvent(e.getActionCommand(), getDirectory());
-            } catch (IOException ioException) {
-                ioException.printStackTrace();
-            }
+            controller.processEvent(e.getActionCommand(), getDirectory());
         });
     }
 

@@ -19,7 +19,7 @@ public class Controller {
     public Controller(){
         this.manager = new Manager();
         this.monitor = new RankMonitorImpl();
-        this.view = new View(this, monitor);
+        this.view = new View(this, monitor, manager);
     }
 
     public void processEvent(String event, String path){
