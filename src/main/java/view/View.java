@@ -19,14 +19,12 @@ public class View extends JFrame implements ActionListener {
     private JTextArea textArea;
     private JTextField directoryText;
     private JTextField wordsCounterText;
-    private final RankMonitor monitor;
     Timer timer = new Timer();
 
     public View(Controller controller, RankMonitor monitor){
         JFrame frame = new JFrame("WordsCounter");
         prepareFrame(frame);
         this.controller = controller;
-        this.monitor = monitor;
         timer.scheduleAtFixedRate(new Task(this, monitor), 100, 50);
     }
 

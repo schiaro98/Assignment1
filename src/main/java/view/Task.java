@@ -7,9 +7,9 @@ import java.util.TimerTask;
 
 public class Task extends TimerTask {
 
-    HashMap<String, Integer> mostFrequent;
-    RankMonitor monitor;
-    View view;
+    private HashMap<String, Integer> mostFrequent;
+    private final RankMonitor monitor;
+    private final View view;
 
     public Task(View view, RankMonitor monitor){
         this.view = view;

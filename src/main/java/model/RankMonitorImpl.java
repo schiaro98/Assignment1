@@ -3,7 +3,6 @@ package main.java.model;
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.stream.Collectors;
 
 public class RankMonitorImpl implements RankMonitor {
 
@@ -11,7 +10,6 @@ public class RankMonitorImpl implements RankMonitor {
     private final Lock mutex;
     private boolean stop;
     private int totalWords;
-
 
     public RankMonitorImpl(){
         mutex = new ReentrantLock();
@@ -88,6 +86,5 @@ public class RankMonitorImpl implements RankMonitor {
         } finally {
             mutex.unlock();
         }
-
     }
 }

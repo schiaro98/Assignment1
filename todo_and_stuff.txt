@@ -31,11 +31,11 @@ legge il file successivo
 
 
 TODO
-Se una cartella ha sia pdf che non, che succede?
+Se una cartella ha sia pdf che non, che succede? Ignora qualsiasi cosa non .pdf
 se una cartella non e' res/pdf ma esterna, che succede?
-se una cartella non ha pdf?
+se una cartella non ha pdf? Niente, i thread partono però a vuoto
 
-Campo per vedere le parole analizzate sulla gui
+Campo per vedere le parole analizzate sulla gui Fatto
 Campo per scrivere il file di testo delle parole da ignorare
 passare le parole da ignorare ai worker
 aggiustare la viewMostFrequent dal rankmonitorImpl, fai qualche test a parte con junit su delle hashmap che ti crei te

@@ -5,7 +5,6 @@ import main.java.view.View;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,7 +22,7 @@ public class Controller {
         this.view = new View(this, monitor);
     }
 
-    public void processEvent(String event, String path) throws IOException {
+    public void processEvent(String event, String path){
         final String pathFinal = cleanPath(path);
         switch(event){
             case "start":
@@ -33,15 +32,15 @@ public class Controller {
                         manager.clear();
                         monitor.reset();
                         int nThread = Runtime.getRuntime().availableProcessors();
-                        Set<Path> paths = null;
                         try {
-                            paths = Files.walk(Paths.get(pathFinal))
+                            Files.walk(Paths.get(pathFinal))
                                     .filter(Files::isRegularFile)
-                                    .collect(Collectors.toSet());
+                                    .filter(p -> p.getFileName().toString().endsWith(".pdf"))
+                                    .collect(Collectors.toSet())
+                                    .forEach(p ->  manager.add(new Task(String.valueOf(p), nThread)));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        paths.forEach(p ->  manager.add(new Task(String.valueOf(p), nThread)));
 
                         for (int i = 0; i < processors; i++) {
                             new Worker(String.valueOf(i), i, manager, monitor, Arrays.asList("a", "b", "c", "d")).start();

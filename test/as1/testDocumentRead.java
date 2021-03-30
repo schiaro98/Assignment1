@@ -1,7 +1,5 @@
 package as1;
 
-import main.java.controller.documentCleaner;
-import main.java.controller.documentReader;
 import org.junit.Test;
 import org.junit.jupiter.api.Disabled;
 
@@ -11,8 +9,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
 import java.util.stream.Collectors;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class testDocumentRead {
 
