@@ -1,12 +1,14 @@
 package main.java.view;
 
 import main.java.controller.Controller;
+import main.java.model.RankMonitor;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.Timer;
 
 public class View extends JFrame implements ActionListener {
 
@@ -16,11 +18,15 @@ public class View extends JFrame implements ActionListener {
     private static final String newline = "\n";
     private JTextArea textArea;
     private JTextField directoryText;
+    private final RankMonitor monitor;
 
-    public View(Controller controller){
-        this.controller = controller;
+    public View(Controller controller, RankMonitor monitor){
         JFrame frame = new JFrame("WordsCounter");
         prepareFrame(frame);
+        this.controller = controller;
+        this.monitor = monitor;
+        Timer timer = new Timer();
+        timer.scheduleAtFixedRate(new Task(this, monitor), 100, 500);
     }
 
     public void prepareFrame(JFrame frame) {

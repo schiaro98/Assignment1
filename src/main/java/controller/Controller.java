@@ -18,9 +18,9 @@ public class Controller {
     private final int processors =  Runtime.getRuntime().availableProcessors();
 
     public Controller(){
-        this.view = new View(this);
         this.manager = new Manager();
         this.monitor = new RankMonitorImpl();
+        this.view = new View(this, monitor);
     }
 
     public void processEvent(String event, String path) throws IOException {
@@ -46,10 +46,10 @@ public class Controller {
                         for (int i = 0; i < processors; i++) {
                             new Worker(String.valueOf(i), i, manager, monitor, Arrays.asList("a", "b", "c", "d")).start();
                         }
-                        HashMap<String, Integer> mostFrequent = monitor.viewMostFrequentN(10);
+                        /*HashMap<String, Integer> mostFrequent = monitor.viewMostFrequentN(10);
                         for (String s: mostFrequent.keySet()) {
                             view.addTextToTextArea(view.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
-                        }
+                        }*/
                     }).start();
                 } catch (Exception ex) {
                     ex.printStackTrace();
