@@ -21,6 +21,7 @@ public class Task extends TimerTask {
         mostFrequent = monitor.viewMostFrequentN(10);
         int totalOfWords = mostFrequent.get("TOTAL_WORDS");
         mostFrequent.remove("TOTAL_WORDS");
+        view.getTextArea().replaceSelection("");
         for (String s: mostFrequent.keySet()) {
             view.addTextToTextArea(view.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
         }

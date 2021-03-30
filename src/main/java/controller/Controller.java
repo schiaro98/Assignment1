@@ -46,10 +46,7 @@ public class Controller {
                         for (int i = 0; i < processors; i++) {
                             new Worker(String.valueOf(i), i, manager, monitor, Arrays.asList("a", "b", "c", "d")).start();
                         }
-                        /*HashMap<String, Integer> mostFrequent = monitor.viewMostFrequentN(10);
-                        for (String s: mostFrequent.keySet()) {
-                            view.addTextToTextArea(view.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
-                        }*/
+
                     }).start();
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -58,6 +55,7 @@ public class Controller {
 
             case "stop":
                 manager.stop();
+                view.cancelTimer();
                 break;
             default:
                 throw new IllegalStateException("Error on action!");
