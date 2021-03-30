@@ -19,6 +19,8 @@ public class View extends JFrame implements ActionListener {
     private JTextArea textArea;
     private JTextField directoryText;
     private JTextField wordsCounterText;
+    private JTextField ignoreText;
+
     final Timer timer = new Timer();
 
     public View(Controller controller, RankMonitor monitor, Manager manager){
@@ -33,20 +35,24 @@ public class View extends JFrame implements ActionListener {
         frame.setSize(GLOBAL_WIDTH, GLOBAL_HEIGHT);
         frame.getContentPane().setLayout(new BorderLayout());
         addTextArea(frame);
-        addDirectory(frame);
+        addInputAndCounter(frame);
         addButtons(frame);
         frame.setVisible(true);
     }
 
-    private void addDirectory(JFrame frame){
+    private void addInputAndCounter(JFrame frame){
         JPanel dirPanel = new JPanel();
         JLabel directoryLabel = new JLabel("Set directory");
         directoryText = new JTextField("res/pdf",20);
+        JLabel ignoreLabel = new JLabel("Set ignore file");
+        ignoreText = new JTextField("res/ignored/ignore.txt",20);
         JLabel numOfWordsCounted = new JLabel("Number of words: ");
         wordsCounterText = new JTextField("", 20);
         wordsCounterText.setEditable(false);
         dirPanel.add(directoryLabel);
         dirPanel.add(directoryText);
+        dirPanel.add(ignoreLabel);
+        dirPanel.add(ignoreText);
         dirPanel.add(numOfWordsCounted);
         dirPanel.add(wordsCounterText);
         frame.getContentPane().add(BorderLayout.CENTER, dirPanel);
@@ -97,5 +103,9 @@ public class View extends JFrame implements ActionListener {
 
     public void cancelTimer(){
         this.timer.cancel();
+    }
+
+    public String getIgnorePath(){
+        return this.ignoreText.getText();
     }
 }
