@@ -74,9 +74,9 @@ public class Controller {
     }
 
     private String cleanPath(String path) {
-        if(path.startsWith("/")){
+       /* if(path.startsWith("/")){
             path = path.substring(1);
-        }
+        }*/
         if(path.endsWith("/")){
             path = path.substring(0,path.length()-1);
         }

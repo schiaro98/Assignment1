@@ -28,7 +28,7 @@ public class View extends JFrame implements ActionListener {
         JFrame frame = new JFrame("WordsCounter");
         prepareFrame(frame);
         this.controller = controller;
-        timer.scheduleAtFixedRate(new ViewTask(this, monitor, manager), 50, 20);
+        timer.scheduleAtFixedRate(new ViewTask(this, monitor, manager), 50, 50);
     }
 
     public void prepareFrame(JFrame frame) {
