@@ -1,6 +1,5 @@
 package main.java.model;
 
-import main.java.view.View;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
