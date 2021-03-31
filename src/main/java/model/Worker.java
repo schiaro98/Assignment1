@@ -69,7 +69,7 @@ public class Worker extends Thread{
         return Optional.empty();
     }
 
-    Optional<Page> extractPage(PDDocument document, int from, int to) throws IOException {
+    private Optional<Page> extractPage(PDDocument document, int from, int to) throws IOException {
         if (document.getCurrentAccessPermission().canExtractContent()){
             PDFTextStripper stripper = new PDFTextStripper();
             stripper.setStartPage(from);
