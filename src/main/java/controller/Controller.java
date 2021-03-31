@@ -16,7 +16,6 @@ public class Controller {
     private final View view;
     private final RankMonitor monitor;
     private final Manager manager;
-    private final int processors =  Runtime.getRuntime().availableProcessors();
 
     public Controller(){
         this.manager = new Manager();
@@ -28,6 +27,7 @@ public class Controller {
     public void processEvent(String event, String path){
         final String pathFinal = cleanPath(path);
         final int nThread = Runtime.getRuntime().availableProcessors();
+        //final int nThread = 1;
         switch(event){
             case "start":
                 long start = System.currentTimeMillis();
@@ -60,7 +60,7 @@ public class Controller {
                         //}
 
                         Set<Worker> workerSet = new HashSet<>();
-                        for (int i = 0; i < processors; i++) {
+                        for (int i = 0; i < nThread; i++) {
                             workerSet.add(new Worker(String.valueOf(i), i, manager, monitor, ignoreWords));
                         }
                         workerSet.forEach(Thread::start);

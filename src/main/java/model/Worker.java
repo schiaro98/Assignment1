@@ -1,6 +1,5 @@
 package main.java.model;
 
-import main.java.view.View;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
@@ -18,6 +17,8 @@ public class Worker extends Thread{
     private final RankMonitor rankMonitor;
     private final int myPosition;
     private final List<String> unwantedWords;
+    private final int numberOfThreads = Runtime.getRuntime().availableProcessors();
+    PDFTextStripper stripper;
 
     public Worker(String name, int myPosition, Manager manager, RankMonitor rankMonitor, List<String> unwantedWords){
         super(name);
@@ -25,6 +26,11 @@ public class Worker extends Thread{
         this.myPosition = myPosition;
         this.rankMonitor = rankMonitor;
         this.unwantedWords = unwantedWords;
+        try {
+            this.stripper = new PDFTextStripper();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -47,7 +53,6 @@ public class Worker extends Thread{
     private Optional<Page> read(Task task){
         try {
             PDDocument document = PDDocument.load(new File(task.getPath()));
-            int numberOfThreads = Runtime.getRuntime().availableProcessors();
             Optional<Page> extractedPage = Optional.empty();
             if (document.getNumberOfPages() >= numberOfThreads){
                 //System.out.println("Thread "+getName()+" begun to read file "+ task.getPath()+ "with "+document.getNumberOfPages()+" pages");
@@ -71,7 +76,6 @@ public class Worker extends Thread{
 
     Optional<Page> extractPage(PDDocument document, int from, int to) throws IOException {
         if (document.getCurrentAccessPermission().canExtractContent()){
-            PDFTextStripper stripper = new PDFTextStripper();
             stripper.setStartPage(from);
             stripper.setEndPage(to);
             Page p = new Page(stripper.getText(document).trim());
@@ -126,10 +130,9 @@ public class Worker extends Thread{
         return  fromToMap;
     }
     private List<Integer> divideEqually(int divideEqually){
-        int numOfThreads =  Runtime.getRuntime().availableProcessors();
         List<Integer> pagesForThread = new ArrayList<>();
-        pagesForThread.add(divideEqually / numOfThreads);
-        pagesForThread.add(divideEqually % numOfThreads);
+        pagesForThread.add(divideEqually / numberOfThreads);
+        pagesForThread.add(divideEqually % numberOfThreads);
         return pagesForThread;
     }
 }
