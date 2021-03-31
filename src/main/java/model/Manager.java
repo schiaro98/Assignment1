@@ -1,5 +1,3 @@
-package main.java.model;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;

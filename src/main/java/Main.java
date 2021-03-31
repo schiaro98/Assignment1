@@ -1,5 +1,3 @@
-package main.java;
-
 import main.java.controller.Controller;
 import main.java.controller.ControllerWithoutGui;
 
