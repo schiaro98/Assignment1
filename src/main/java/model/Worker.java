@@ -1,5 +1,6 @@
 package main.java.model;
 
+import main.java.view.View;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
@@ -18,7 +19,6 @@ public class Worker extends Thread{
     private final int myPosition;
     private final List<String> unwantedWords;
 
-
     public Worker(String name, int myPosition, Manager manager, RankMonitor rankMonitor, List<String> unwantedWords){
         super(name);
         this.manager = manager;
@@ -32,16 +32,16 @@ public class Worker extends Thread{
         for (Task t : manager.getTasks()){
             if(!t.isDone() && t.isAvailable()){
                 Optional<Page> currentPage = Optional.empty();
-                if (!manager.isComputationStopped()){
+                if (manager.isComputationStopped()){
                     currentPage = read(t);
                 }
-                if (currentPage.isPresent() && !manager.isComputationStopped()){
+                if (currentPage.isPresent() && manager.isComputationStopped()){
                     analyze(currentPage.get());
                 }
                 t.incThreadWhoAlreadyWorked();
             }
         }
-        System.out.println("Thread "+getName()+" completed his job... exiting");
+        //System.out.println("Thread "+getName()+" completed his job... exiting");
     }
 
     private Optional<Page> read(Task task){
@@ -51,14 +51,14 @@ public class Worker extends Thread{
             int numberOfThreads = Runtime.getRuntime().availableProcessors();
             Optional<Page> extractedPage = Optional.empty();
             if (document.getNumberOfPages() >= numberOfThreads){
-                System.out.println("Thread "+getName()+" begun to read file "+ task.getPath()+ "with "+document.getNumberOfPages()+" pages");
+                //System.out.println("Thread "+getName()+" begun to read file "+ task.getPath()+ "with "+document.getNumberOfPages()+" pages");
                 var fromToMap = getRange(document.getNumberOfPages());
                 extractedPage = extractPage(document,fromToMap.get("from"),fromToMap.get("to"));
             }else if (document.getNumberOfPages() < numberOfThreads && myPosition == 0){
                 //se lavoro da solo setto il task unavailable per gli altri
                 task.setUnavailable();
                 task.workAlone();
-                System.out.println("Thread "+getName()+" begun to read file "+ task.getPath());
+                //System.out.println("Thread "+getName()+" begun to read file "+ task.getPath());
                 extractedPage = extractPage(document, 1, document.getNumberOfPages());
             }
             document.close();

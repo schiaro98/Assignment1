@@ -8,18 +8,21 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.Timer;
 
 public class View extends JFrame implements ActionListener {
 
     private final Controller controller;
-    private static final int GLOBAL_WIDTH = 500;
+    private static final int GLOBAL_WIDTH = 400;
     private static final int GLOBAL_HEIGHT = 500;
     private static final String newline = "\n";
+    private final RankMonitor monitor;
     private JTextArea textArea;
     private JTextField directoryText;
     private JTextField wordsCounterText;
     private JTextField ignoreText;
+    private JTextField wordsToBePrinted;
     private JButton start;
 
     final Timer timer = new Timer();
@@ -27,8 +30,10 @@ public class View extends JFrame implements ActionListener {
     public View(Controller controller, RankMonitor monitor, Manager manager){
         JFrame frame = new JFrame("WordsCounter");
         prepareFrame(frame);
+        frame.setResizable(false);
         this.controller = controller;
-        timer.scheduleAtFixedRate(new ViewTask(this, monitor, manager), 50, 400);
+        this.monitor = monitor;
+        //timer.scheduleAtFixedRate(new ViewTask(this, monitor, manager), 50, 1000);
     }
 
     public void prepareFrame(JFrame frame) {
@@ -50,10 +55,14 @@ public class View extends JFrame implements ActionListener {
         JLabel numOfWordsCounted = new JLabel("Number of words: ");
         wordsCounterText = new JTextField("", 20);
         wordsCounterText.setEditable(false);
+        JLabel wordsToBePrintedLabel = new JLabel("Words to be displayed");
+        wordsToBePrinted = new JTextField("10",10);
         dirPanel.add(directoryLabel);
         dirPanel.add(directoryText);
         dirPanel.add(ignoreLabel);
         dirPanel.add(ignoreText);
+        dirPanel.add(wordsToBePrintedLabel);
+        dirPanel.add(wordsToBePrinted);
         dirPanel.add(numOfWordsCounted);
         dirPanel.add(wordsCounterText);
         frame.getContentPane().add(BorderLayout.CENTER, dirPanel);
@@ -93,6 +102,10 @@ public class View extends JFrame implements ActionListener {
         return this.directoryText.getText();
     }
 
+    public int getNumOfWordsToBePrinted(){
+        return Integer.parseInt(this.wordsToBePrinted.getText());
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         SwingUtilities.invokeLater(()-> controller.processEvent(e.getActionCommand(), getDirectory()));
@@ -114,4 +127,20 @@ public class View extends JFrame implements ActionListener {
         this.start.setEnabled(status);
     }
 
+    public void rankUpdated(){
+        try {
+            SwingUtilities.invokeLater(() -> {
+                var mostFrequent = monitor.viewMostFrequentN(getNumOfWordsToBePrinted());
+                int totalOfWords = mostFrequent.get("TOTAL_WORDS");
+                mostFrequent.remove("TOTAL_WORDS");
+                this.getTextArea().setText("");
+                for (String s: mostFrequent.keySet()) {
+                    this.addTextToTextArea(this.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
+                }
+                this.updateWordsCounter(totalOfWords);
+            });
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 }

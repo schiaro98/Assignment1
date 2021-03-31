@@ -22,6 +22,7 @@ public class Controller {
         this.manager = new Manager();
         this.monitor = new RankMonitorImpl();
         this.view = new View(this, monitor, manager);
+        monitor.setView(view);
     }
 
     public void processEvent(String event, String path){
@@ -29,6 +30,7 @@ public class Controller {
         final int nThread = Runtime.getRuntime().availableProcessors();
         switch(event){
             case "start":
+                long start = System.currentTimeMillis();
                 view.setStartButtonStatus(false);
                 try {
                     new Thread(() -> {
@@ -53,10 +55,23 @@ public class Controller {
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
-                        for (int i = 0; i < processors; i++) {
-                            new Worker(String.valueOf(i), i, manager, monitor, ignoreWords).start();
-                        }
+                       // for (int i = 0; i < processors; i++) {
+                      //      new Worker(String.valueOf(i), i, manager, monitor, ignoreWords).start();
+                        //}
 
+                        Set<Worker> workerSet = new HashSet<>();
+                        for (int i = 0; i < processors; i++) {
+                            workerSet.add(new Worker(String.valueOf(i), i, manager, monitor, ignoreWords));
+                        }
+                        workerSet.forEach(Thread::start);
+                        try{
+                            for (Worker worker : workerSet) {
+                                worker.join();
+                            }
+                        } catch (InterruptedException e){
+                            e.printStackTrace();
+                        }
+                        System.out.println("Time elapsed "+ (System.currentTimeMillis() - start));
                     }).start();
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -74,9 +89,6 @@ public class Controller {
     }
 
     private String cleanPath(String path) {
-       /* if(path.startsWith("/")){
-            path = path.substring(1);
-        }*/
         if(path.endsWith("/")){
             path = path.substring(0,path.length()-1);
         }

@@ -11,13 +11,15 @@ public class ViewTask extends TimerTask {
     private HashMap<String, Integer> mostFrequent;
     private final RankMonitor monitor;
     private final View view;
-    private Manager manager;
+    private final Manager manager;
+    final int maxWordsToPrint;
 
     public ViewTask(View view, RankMonitor monitor, Manager manager){
         this.view = view;
         this.monitor = monitor;
         this.manager = manager;
         mostFrequent = new HashMap<>();
+        maxWordsToPrint = view.getNumOfWordsToBePrinted();
     }
 
     @Override
@@ -26,7 +28,7 @@ public class ViewTask extends TimerTask {
             view.setStartButtonStatus(true);
             this.cancel();
         }*/
-        mostFrequent = monitor.viewMostFrequentN(10);
+        mostFrequent = monitor.viewMostFrequentN(maxWordsToPrint);
         int totalOfWords = mostFrequent.get("TOTAL_WORDS");
         mostFrequent.remove("TOTAL_WORDS");
         view.getTextArea().setText("");

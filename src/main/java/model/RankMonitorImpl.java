@@ -1,5 +1,7 @@
 package main.java.model;
 
+import main.java.view.View;
+
 import java.util.*;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -10,6 +12,7 @@ public class RankMonitorImpl implements RankMonitor {
     private final Lock mutex;
     private boolean stop;
     private int totalWords;
+    private View view;
 
     public RankMonitorImpl(){
         mutex = new ReentrantLock();
@@ -17,7 +20,9 @@ public class RankMonitorImpl implements RankMonitor {
         stop = false;
         totalWords = 0;
     }
-
+     public void setView(View view){
+        this.view = view;
+     }
     /*
     TODO nel thread faccio un controllo che la pagina deve avere almeno un carattere
         aka pagerank non vuoto
@@ -35,11 +40,13 @@ public class RankMonitorImpl implements RankMonitor {
                     }
                     totalWords += instancesOfThisWord;
                 }
+                notifyView();
                 return true;
             }
+            notifyView();
             return false;
 		} finally {
-			mutex.unlock();
+            mutex.unlock();
 		}
     }
 
@@ -52,8 +59,7 @@ public class RankMonitorImpl implements RankMonitor {
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                     .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
-
-
+            
             var sorted = new LinkedHashMap<String,Integer>();
             int i = 0;
             Iterator<String> iterator = sortedMap.keySet().iterator();
@@ -62,8 +68,7 @@ public class RankMonitorImpl implements RankMonitor {
                 sorted.put(s, sortedMap.get(s));
                 i++;
             }
-            /*HashMap<String, Integer> sorted = sortedMap.entrySet().stream().limit(n)
-                    .collect(HashMap::new, (m, e) -> m.put(e.getKey(), e.getValue()), Map::putAll);*/
+
             sorted.put("TOTAL_WORDS", totalWords);
             return sorted;
         } finally {
@@ -81,12 +86,6 @@ public class RankMonitorImpl implements RankMonitor {
         }
     }
 
-    public void stamp(){
-        for (String s :rank.keySet()){
-            System.out.println("Word "+s+" appeared:   " +rank.get(s)+ " times." );
-        }
-    }
-
     public void stop() {
         try {
             mutex.lock();
@@ -94,6 +93,12 @@ public class RankMonitorImpl implements RankMonitor {
             this.totalWords = 0;
         } finally {
             mutex.unlock();
+        }
+    }
+
+    private void notifyView(){
+        if (this.view!=null){
+            view.rankUpdated();
         }
     }
 }

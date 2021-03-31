@@ -1,5 +1,7 @@
 package main.java.model;
 
+import main.java.view.View;
+
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
@@ -13,6 +15,5 @@ public interface RankMonitor {
 
     void stop();
 
-    //TODO delete stamp()
-    void stamp();
+    void setView(View view);
 }
