@@ -48,7 +48,6 @@ public class Worker extends Thread{
 
     private Optional<Page> read(Task task){
         try {
-            long start = System.currentTimeMillis();
             PDDocument document = PDDocument.load(new File(task.getPath()));
             Optional<Page> extractedPage = Optional.empty();
             if (document.getNumberOfPages() >= numberOfThreads){
