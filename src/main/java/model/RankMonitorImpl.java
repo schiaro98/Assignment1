@@ -20,13 +20,11 @@ public class RankMonitorImpl implements RankMonitor {
         stop = false;
         totalWords = 0;
     }
-     public void setView(View view){
+
+    public void setView(View view){
         this.view = view;
      }
-    /*
-    TODO nel thread faccio un controllo che la pagina deve avere almeno un carattere
-        aka pagerank non vuoto
-     */
+
     public boolean update(HashMap<String, Integer> pageRank) {
         try {
             mutex.lock();
@@ -52,27 +50,18 @@ public class RankMonitorImpl implements RankMonitor {
 		}
     }
 
-    public LinkedHashMap<String, Integer> viewMostFrequentN(int n) {
+    public Map<String, Integer> viewMostFrequentN(int n) {
         try{
             mutex.lock();
-            LinkedHashMap<String, Integer> sortedMap = new LinkedHashMap<>();
-
+            Map<String, Integer> sortedMap = new LinkedHashMap<>();
             rank.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .limit(n)
                     .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
-            
-            var sorted = new LinkedHashMap<String,Integer>();
-            int i = 0;
-            Iterator<String> iterator = sortedMap.keySet().iterator();
-            while (iterator.hasNext() && i<n){
-                String s = iterator.next();
-                sorted.put(s, sortedMap.get(s));
-                i++;
-            }
 
-            sorted.put("TOTAL_WORDS", totalWords);
-            return sorted;
+            sortedMap.put("TOTAL_WORDS", totalWords);
+            return sortedMap;
         } finally {
             mutex.unlock();
         }

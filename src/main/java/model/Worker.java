@@ -5,10 +5,7 @@ import org.apache.pdfbox.text.PDFTextStripper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 public class Worker extends Thread{
 
@@ -20,13 +17,13 @@ public class Worker extends Thread{
     private int numberOfThreads;
     private PDFTextStripper stripper;
 
-    public Worker(String name, int myPosition, Manager manager, RankMonitor rankMonitor, List<String> unwantedWords){
+    public Worker(String name, int myPosition, Manager manager, RankMonitor rankMonitor, List<String> unwantedWords, int numberOfThreads){
         super(name);
         this.manager = manager;
         this.myPosition = myPosition;
         this.rankMonitor = rankMonitor;
         this.unwantedWords = unwantedWords;
-        this.numberOfThreads = Runtime.getRuntime().availableProcessors();
+        this.numberOfThreads = numberOfThreads;
         try {
             this.stripper = new PDFTextStripper();
         } catch (IOException e) {
@@ -36,9 +33,9 @@ public class Worker extends Thread{
 
     @Override
     public void run() {
+        Optional<Page> currentPage = Optional.empty();
         for (Task t : manager.getTasks()){
             if(!t.isDone() && t.isAvailable()){
-                Optional<Page> currentPage = Optional.empty();
                 if (manager.isComputationStopped()){
                     currentPage = read(t);
                 }
@@ -57,7 +54,7 @@ public class Worker extends Thread{
             Optional<Page> extractedPage = Optional.empty();
             if (document.getNumberOfPages() >= numberOfThreads){
                 //System.out.println("Thread "+getName()+" begun to read file "+ task.getPath()+ "with "+document.getNumberOfPages()+" pages");
-                var fromToMap = getRange(document.getNumberOfPages());
+                Map<String, Integer> fromToMap = getRange(document.getNumberOfPages());
                 extractedPage = extractPage(document,fromToMap.get("from"),fromToMap.get("to"));
             }else if (document.getNumberOfPages() < numberOfThreads && myPosition == 0){
                 //se lavoro da solo setto il task unavailable per gli altri
