@@ -18,6 +18,7 @@ public class Worker extends Thread{
     private final RankMonitor rankMonitor;
     private final int myPosition;
     private final List<String> unwantedWords;
+    private final int numberOfThreads;
 
     public Worker(String name, int myPosition, Manager manager, RankMonitor rankMonitor, List<String> unwantedWords){
         super(name);
@@ -25,6 +26,7 @@ public class Worker extends Thread{
         this.myPosition = myPosition;
         this.rankMonitor = rankMonitor;
         this.unwantedWords = unwantedWords;
+        this.numberOfThreads = Runtime.getRuntime().availableProcessors();
     }
 
     @Override
@@ -48,7 +50,6 @@ public class Worker extends Thread{
         try {
             long start = System.currentTimeMillis();
             PDDocument document = PDDocument.load(new File(task.getPath()));
-            int numberOfThreads = Runtime.getRuntime().availableProcessors();
             Optional<Page> extractedPage = Optional.empty();
             if (document.getNumberOfPages() >= numberOfThreads){
                 //System.out.println("Thread "+getName()+" begun to read file "+ task.getPath()+ "with "+document.getNumberOfPages()+" pages");
@@ -126,11 +127,11 @@ public class Worker extends Thread{
         }
         return  fromToMap;
     }
+
     private List<Integer> divideEqually(int divideEqually){
-        int numOfThreads =  Runtime.getRuntime().availableProcessors();
         List<Integer> pagesForThread = new ArrayList<>();
-        pagesForThread.add(divideEqually / numOfThreads);
-        pagesForThread.add(divideEqually % numOfThreads);
+        pagesForThread.add(divideEqually / numberOfThreads);
+        pagesForThread.add(divideEqually % numberOfThreads);
         return pagesForThread;
     }
 }

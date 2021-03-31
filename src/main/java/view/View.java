@@ -131,16 +131,20 @@ public class View extends JFrame implements ActionListener {
         try {
             SwingUtilities.invokeLater(() -> {
                 var mostFrequent = monitor.viewMostFrequentN(getNumOfWordsToBePrinted());
-                int totalOfWords = mostFrequent.get("TOTAL_WORDS");
+                this.updateWordsCounter(mostFrequent.get("TOTAL_WORDS"));
                 mostFrequent.remove("TOTAL_WORDS");
                 this.getTextArea().setText("");
                 for (String s: mostFrequent.keySet()) {
                     this.addTextToTextArea(this.getTextArea(), "Parola: " + s + " Occorenze: " + mostFrequent.get(s));
                 }
-                this.updateWordsCounter(totalOfWords);
             });
         } catch (Exception ex){
             ex.printStackTrace();
         }
+    }
+
+    public void reset(){
+        this.textArea.setText("");
+        this.wordsCounterText.setText("0");
     }
 }

@@ -81,6 +81,7 @@ public class RankMonitorImpl implements RankMonitor {
         try {
             mutex.lock();
             rank.clear();
+            this.totalWords = 0;
         }finally {
             mutex.unlock();
         }
