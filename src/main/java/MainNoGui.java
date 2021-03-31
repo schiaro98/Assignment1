@@ -1,6 +1,4 @@
-package main.java;
-
-import main.java.controller.ControllerWithoutGui;
+import controller.ControllerWithoutGui;
 
 public class MainNoGui {
     public static void main(String[] args) {

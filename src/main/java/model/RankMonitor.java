@@ -1,6 +1,6 @@
-package main.java.model;
+package model;
 
-import main.java.view.View;
+import view.View;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

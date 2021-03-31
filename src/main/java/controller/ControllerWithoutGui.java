@@ -1,6 +1,6 @@
-package main.java.controller;
+package controller;
 
-import main.java.model.*;
+import model.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;

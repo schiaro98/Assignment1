@@ -1,5 +1,5 @@
-import main.java.controller.Controller;
-import main.java.controller.ControllerWithoutGui;
+import controller.Controller;
+import controller.ControllerWithoutGui;
 
 public class Main {
     public static void main(String[] args) {

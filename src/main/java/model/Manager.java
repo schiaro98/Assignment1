@@ -1,3 +1,5 @@
+package model;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -34,8 +36,6 @@ public class Manager{
         } finally {
             mutex.unlock();
         }
-
-
     }
 
     public List<Task> getTasks(){

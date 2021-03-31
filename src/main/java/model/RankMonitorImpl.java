@@ -1,6 +1,6 @@
-package main.java.model;
+package model;
 
-import main.java.view.View;
+import view.View;
 
 import java.util.*;
 import java.util.concurrent.locks.Lock;
@@ -31,6 +31,7 @@ public class RankMonitorImpl implements RankMonitor {
         try {
             mutex.lock();
 			if(!stop){
+			    long start = System.currentTimeMillis();
                 for (String s: pageRank.keySet()) {
                     int instancesOfThisWord = pageRank.get(s);
                     if(rank.containsKey(s)){
@@ -40,6 +41,7 @@ public class RankMonitorImpl implements RankMonitor {
                     }
                     totalWords += instancesOfThisWord;
                 }
+                System.out.println("Elapsed: " + (System.currentTimeMillis() - start));
                 notifyView();
                 return true;
             }

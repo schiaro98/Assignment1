@@ -1,8 +1,8 @@
-package main.java.view;
+package view;
 
-import main.java.controller.Controller;
-import main.java.model.Manager;
-import main.java.model.RankMonitor;
+import controller.Controller;
+import model.Manager;
+import model.RankMonitor;
 
 import javax.swing.*;
 import java.awt.*;

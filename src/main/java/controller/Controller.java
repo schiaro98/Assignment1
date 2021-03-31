@@ -1,7 +1,7 @@
-package main.java.controller;
+package controller;
 
-import main.java.model.*;
-import main.java.view.View;
+import model.*;
+import view.View;
 
 import java.io.File;
 import java.io.FileNotFoundException;
