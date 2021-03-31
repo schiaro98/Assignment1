@@ -5,7 +5,6 @@ import java.util.List;
 
 public class Page {
 
-
     private String page;
 
     public Page(String page){
@@ -23,13 +22,11 @@ public class Page {
      * @return string without unwantedWords
      */
     public List<String> getRelevantWords(List<String> unwantedWords){
-        this.page = page.toLowerCase(); //TODO Serve?
+        this.page = page.toLowerCase();
         this.page = page.replaceAll("[^\\p{L}\\p{Nd}]+", " ");
         for(String s : unwantedWords){
-            //page = page.replaceAll( " "+s.toLowerCase()+ " " , " " );
             page = page.replace(" "+s.toLowerCase()+" ", " ");
         }
-        //System.out.println("Time relevant words: " + (System.currentTimeMillis() - start));
-        return Arrays.asList(page.split("\\W+"));
+        return Arrays.asList(page.split(" +"));
     }
 }

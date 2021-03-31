@@ -30,7 +30,7 @@ public class ControllerWithoutGui {
         long start = System.currentTimeMillis();
         final String pathFinal = cleanPath(directoryPath);
         final int nThread = Runtime.getRuntime().availableProcessors();
-        //VERA IMPLEMENTAZIONE
+
         this.manager = new Manager();
         this.monitor = new RankMonitorImpl();
         try {
@@ -51,7 +51,7 @@ public class ControllerWithoutGui {
         }
         Set<Worker> workerSet = new HashSet<>();
         for (int i = 0; i < processors; i++) {
-            workerSet.add(new Worker(String.valueOf(i), i, manager, monitor, ignoreWords));
+            workerSet.add(new Worker(String.valueOf(i), i, manager, monitor, ignoreWords,nThread));
         }
         workerSet.forEach(Thread::start);
         try{

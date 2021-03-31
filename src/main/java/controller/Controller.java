@@ -27,7 +27,6 @@ public class Controller {
     public void processEvent(String event, String path){
         final String pathFinal = cleanPath(path);
         final int nThread = Runtime.getRuntime().availableProcessors();
-        //final int nThread = 1;
         switch(event){
             case "start":
                 long start = System.currentTimeMillis();
@@ -35,7 +34,6 @@ public class Controller {
                 view.reset();
                 try {
                     new Thread(() -> {
-                        //VERA IMPLEMENTAZIONE
                         manager.clear();
                         monitor.reset();
                         try {
@@ -56,13 +54,10 @@ public class Controller {
                         } catch (FileNotFoundException e) {
                             e.printStackTrace();
                         }
-                       // for (int i = 0; i < processors; i++) {
-                      //      new Worker(String.valueOf(i), i, manager, monitor, ignoreWords).start();
-                        //}
 
                         Set<Worker> workerSet = new HashSet<>();
                         for (int i = 0; i < nThread; i++) {
-                            workerSet.add(new Worker(String.valueOf(i), i, manager, monitor, ignoreWords));
+                            workerSet.add(new Worker(String.valueOf(i), i, manager, monitor, ignoreWords,nThread));
                         }
                         workerSet.forEach(Thread::start);
                         try{
@@ -72,6 +67,7 @@ public class Controller {
                         } catch (InterruptedException e){
                             e.printStackTrace();
                         }
+                        view.setStartButtonStatus(true);
                         System.out.println("Time elapsed "+ (System.currentTimeMillis() - start));
                     }).start();
                 } catch (Exception ex) {
