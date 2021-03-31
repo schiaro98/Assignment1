@@ -32,6 +32,7 @@ public class Controller {
             case "start":
                 long start = System.currentTimeMillis();
                 view.setStartButtonStatus(false);
+                view.reset();
                 try {
                     new Thread(() -> {
                         //VERA IMPLEMENTAZIONE
