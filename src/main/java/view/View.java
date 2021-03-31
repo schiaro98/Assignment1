@@ -8,13 +8,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.HashMap;
-import java.util.Timer;
 
 public class View extends JFrame implements ActionListener {
 
     private final Controller controller;
-    private static final int GLOBAL_WIDTH = 400;
+    private static final int GLOBAL_WIDTH = 350;
     private static final int GLOBAL_HEIGHT = 500;
     private static final String newline = "\n";
     private final RankMonitor monitor;
@@ -25,15 +23,12 @@ public class View extends JFrame implements ActionListener {
     private JTextField wordsToBePrinted;
     private JButton start;
 
-    final Timer timer = new Timer();
-
     public View(Controller controller, RankMonitor monitor, Manager manager){
         JFrame frame = new JFrame("WordsCounter");
         prepareFrame(frame);
         frame.setResizable(false);
         this.controller = controller;
         this.monitor = monitor;
-        //timer.scheduleAtFixedRate(new ViewTask(this, monitor, manager), 50, 1000);
     }
 
     public void prepareFrame(JFrame frame) {
@@ -113,10 +108,6 @@ public class View extends JFrame implements ActionListener {
 
     public JTextArea getTextArea(){
         return this.textArea;
-    }
-
-    public void cancelTimer(){
-        this.timer.cancel();
     }
 
     public String getIgnorePath(){

@@ -64,8 +64,8 @@ public class ControllerWithoutGui {
         var rankToDisplay = monitor.viewMostFrequentN(this.wordsToDisplay);
         int totalWords = rankToDisplay.get("TOTAL_WORDS");
         rankToDisplay.remove("TOTAL_WORDS");
-        for (String s: rankToDisplay.keySet()) {
-            System.out.println("Parola: " + s + " Occorenze: " + rankToDisplay.get(s));
+        for (Map.Entry<String, Integer> s: rankToDisplay.entrySet()) {
+            System.out.println("Parola: " + s.getKey() + " Occorenze: " + s.getValue());
         }
         System.out.println("Numero di parole totali: " + totalWords);
         System.out.println("Time elapsed " + (System.currentTimeMillis() - start));

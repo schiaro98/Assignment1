@@ -81,7 +81,6 @@ public class Controller {
 
             case "stop":
                 manager.stop();
-                view.cancelTimer();
                 view.setStartButtonStatus(true);
                 break;
             default:
