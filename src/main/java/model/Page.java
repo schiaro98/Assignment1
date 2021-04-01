@@ -12,10 +12,6 @@ public class Page {
 
     }
 
-    public String getPage() {
-        return page;
-    }
-
     /**
      * remove unwanted words from page and return all the other words as a List of String
      * @param unwantedWords words to delete from string

@@ -10,7 +10,7 @@ public class RankMonitorImpl implements RankMonitor {
 
     private final HashMap<String, Integer> rank;
     private final Lock mutex;
-    private boolean stop;
+    private final boolean stop;
     private int totalWords;
     private View view;
 
@@ -25,11 +25,10 @@ public class RankMonitorImpl implements RankMonitor {
         this.view = view;
      }
 
-    public boolean update(HashMap<String, Integer> pageRank) {
+    public void update(HashMap<String, Integer> pageRank) {
         try {
             mutex.lock();
 			if(!stop){
-			    long start = System.currentTimeMillis();
                 for (String s: pageRank.keySet()) {
                     int instancesOfThisWord = pageRank.get(s);
                     if(rank.containsKey(s)){
@@ -39,12 +38,8 @@ public class RankMonitorImpl implements RankMonitor {
                     }
                     totalWords += instancesOfThisWord;
                 }
-                System.out.println("Elapsed: " + (System.currentTimeMillis() - start));
-                notifyView();
-                return true;
             }
             notifyView();
-            return false;
 		} finally {
             mutex.unlock();
 		}
@@ -74,16 +69,6 @@ public class RankMonitorImpl implements RankMonitor {
             rank.clear();
             this.totalWords = 0;
         }finally {
-            mutex.unlock();
-        }
-    }
-
-    public void stop() {
-        try {
-            mutex.lock();
-            this.stop = true;
-            this.totalWords = 0;
-        } finally {
             mutex.unlock();
         }
     }

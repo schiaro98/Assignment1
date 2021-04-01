@@ -20,7 +20,7 @@ public class Controller {
     public Controller(){
         this.manager = new Manager();
         this.monitor = new RankMonitorImpl();
-        this.view = new View(this, monitor, manager);
+        this.view = new View(this, monitor);
         monitor.setView(view);
     }
 
@@ -36,24 +36,10 @@ public class Controller {
                     new Thread(() -> {
                         manager.clear();
                         monitor.reset();
-                        try {
-                            Files.walk(Paths.get(pathFinal))
-                                    .filter(Files::isRegularFile)
-                                    .filter(p -> p.getFileName().toString().endsWith(".pdf"))
-                                    .collect(Collectors.toSet())
-                                    .forEach(p ->  manager.add(new Task(String.valueOf(p), nThread)));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        /*
-                            Qui leggo il file ignore.txt
-                         */
-                        List<String> ignoreWords = new ArrayList<>();
-                        try {
-                            ignoreWords = getFromIgnoreText(view.getIgnorePath());
-                        } catch (FileNotFoundException e) {
-                            e.printStackTrace();
-                        }
+                        createTasks(pathFinal, nThread);
+
+                        //read ignore.txt
+                        var ignoreWords = getFromIgnoreText(view.getIgnorePath());
 
                         Set<Worker> workerSet = new HashSet<>();
                         for (int i = 0; i < nThread; i++) {
@@ -91,16 +77,33 @@ public class Controller {
         return path;
     }
 
-    public static List<String> getFromIgnoreText(String fileName) throws FileNotFoundException {
-        File testFile = new File(fileName);
-        Scanner inputFile = new Scanner(testFile);
-        List<String> words = new ArrayList<>();
-        if (!testFile.exists()){
-            System.out.println("File Doesn't Exist");
-            return words;
+    private void createTasks(String path, int nThread){
+        try {
+            Files.walk(Paths.get(path))
+                    .filter(Files::isRegularFile)
+                    .filter(p -> p.getFileName().toString().endsWith(".pdf"))
+                    .collect(Collectors.toSet())
+                    .forEach(p ->  manager.add(new Task(String.valueOf(p), nThread)));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        while (inputFile.hasNext()) {
-            words.add(inputFile.nextLine());
+    }
+
+    private static List<String> getFromIgnoreText(String fileName) {
+        File testFile = new File(fileName);
+        Scanner inputFile = null;
+        try {
+            inputFile = new Scanner(testFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        List<String> words = new ArrayList<>();
+        if (inputFile != null) {
+            while (inputFile.hasNext()) {
+                words.add(inputFile.nextLine());
+            }
+        } else {
+            System.out.println("File Doesn't Exist");
         }
         return words;
     }

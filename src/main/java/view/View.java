@@ -1,7 +1,6 @@
 package view;
 
 import controller.Controller;
-import model.Manager;
 import model.RankMonitor;
 
 import javax.swing.*;
@@ -23,7 +22,7 @@ public class View extends JFrame implements ActionListener {
     private JTextField wordsToBePrinted;
     private JButton start;
 
-    public View(Controller controller, RankMonitor monitor, Manager manager){
+    public View(Controller controller, RankMonitor monitor){
         JFrame frame = new JFrame("WordsCounter");
         prepareFrame(frame);
         frame.setResizable(false);

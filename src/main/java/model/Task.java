@@ -51,7 +51,7 @@ public class Task {
         }
     }
 
-    //setta il numero di thread al max -1 cosi quando viene chiamata la inc si completa il task
+    //set number of threads at max-1 to make the task completed when called
     public void workAlone(){
         try {
             mutex.lock();
@@ -70,7 +70,6 @@ public class Task {
         }
     }
 
-    //non serve la mutex tanto il campo e' immutabile
     public String getPath(){
         try{
             mutex.lock();

@@ -16,7 +16,6 @@ public class ControllerWithoutGui {
     private final String directoryPath;
     private final String ignorePath;
     private final int wordsToDisplay;
-    private RankMonitor monitor;
     private Manager manager;
 
     public ControllerWithoutGui(String path, String ignore, String numberWords){
@@ -32,28 +31,18 @@ public class ControllerWithoutGui {
         final int nThread = Runtime.getRuntime().availableProcessors();
 
         this.manager = new Manager();
-        this.monitor = new RankMonitorImpl();
-        try {
-            Files.walk(Paths.get(pathFinal))
-                    .filter(Files::isRegularFile)
-                    .filter(p -> p.getFileName().toString().endsWith(".pdf"))
-                    .collect(Collectors.toSet())
-                    .forEach(p ->  manager.add(new Task(String.valueOf(p), nThread)));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        RankMonitor monitor = new RankMonitorImpl();
 
-        List<String> ignoreWords = new ArrayList<>();
-        try {
-            ignoreWords = getFromIgnoreText(this.ignorePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        createTasks(pathFinal, nThread);
+
+        var ignoreWords = getFromIgnoreText(this.ignorePath);
+
         Set<Worker> workerSet = new HashSet<>();
         for (int i = 0; i < processors; i++) {
             workerSet.add(new Worker(String.valueOf(i), i, manager, monitor, ignoreWords,nThread));
         }
         workerSet.forEach(Thread::start);
+
         try{
             for (Worker worker : workerSet) {
                 worker.join();
@@ -61,13 +50,9 @@ public class ControllerWithoutGui {
         } catch (InterruptedException e){
             e.printStackTrace();
         }
+
         var rankToDisplay = monitor.viewMostFrequentN(this.wordsToDisplay);
-        int totalWords = rankToDisplay.get("TOTAL_WORDS");
-        rankToDisplay.remove("TOTAL_WORDS");
-        for (Map.Entry<String, Integer> s: rankToDisplay.entrySet()) {
-            System.out.println("Parola: " + s.getKey() + " Occorenze: " + s.getValue());
-        }
-        System.out.println("Numero di parole totali: " + totalWords);
+        displayRank(rankToDisplay);
         System.out.println("Time elapsed " + (System.currentTimeMillis() - start));
     }
 
@@ -78,17 +63,42 @@ public class ControllerWithoutGui {
         return path;
     }
 
-    public static List<String> getFromIgnoreText(String fileName) throws FileNotFoundException {
-        File testFile = new File(fileName);
-        Scanner inputFile = new Scanner(testFile);
-        List<String> words = new ArrayList<>();
-        if (!testFile.exists()){
-            System.out.println("File Doesn't Exist");
-            return words;
+    private void createTasks(String path, int nThread){
+        try {
+            Files.walk(Paths.get(path))
+                    .filter(Files::isRegularFile)
+                    .filter(p -> p.getFileName().toString().endsWith(".pdf"))
+                    .collect(Collectors.toSet())
+                    .forEach(p ->  manager.add(new Task(String.valueOf(p), nThread)));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        while (inputFile.hasNext()) {
-            words.add(inputFile.nextLine());
+    }
+
+    private static List<String> getFromIgnoreText(String fileName) {
+        File testFile = new File(fileName);
+        Scanner inputFile = null;
+        try {
+            inputFile = new Scanner(testFile);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        List<String> words = new ArrayList<>();
+        if (inputFile != null) {
+            while (inputFile.hasNext()) {
+                words.add(inputFile.nextLine());
+            }
+        } else {
+            System.out.println("File Doesn't Exist");
         }
         return words;
+    }
+    private void displayRank(Map<String, Integer> rankToDisplay){
+        int totalWords = rankToDisplay.get("TOTAL_WORDS");
+        rankToDisplay.remove("TOTAL_WORDS");
+        for (Map.Entry<String, Integer> s: rankToDisplay.entrySet()) {
+            System.out.println("Parola: " + s.getKey() + " Occorenze: " + s.getValue());
+        }
+        System.out.println("Numero di parole totali: " + totalWords);
     }
 }

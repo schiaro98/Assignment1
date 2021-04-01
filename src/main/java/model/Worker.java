@@ -14,7 +14,7 @@ public class Worker extends Thread{
     private final RankMonitor rankMonitor;
     private final int myPosition;
     private final List<String> unwantedWords;
-    private int numberOfThreads;
+    private final int numberOfThreads;
     private PDFTextStripper stripper;
 
     public Worker(String name, int myPosition, Manager manager, RankMonitor rankMonitor, List<String> unwantedWords, int numberOfThreads){
@@ -57,7 +57,7 @@ public class Worker extends Thread{
                 Map<String, Integer> fromToMap = getRange(document.getNumberOfPages());
                 extractedPage = extractPage(document,fromToMap.get("from"),fromToMap.get("to"));
             }else if (document.getNumberOfPages() < numberOfThreads && myPosition == 0){
-                //se lavoro da solo setto il task unavailable per gli altri
+                //if it works alone set the task unavailable for the others
                 task.setUnavailable();
                 task.workAlone();
                 //System.out.println("Thread "+getName()+" begun to read file "+ task.getPath());
@@ -112,9 +112,9 @@ public class Worker extends Thread{
 
     private HashMap<String, Integer> getRange(int numberOfPages){
         HashMap<String, Integer> fromToMap = new HashMap<>();
-        var qzAndResto = divideEqually(numberOfPages);
-        int qz = qzAndResto.get(0);
-        int remaining = qzAndResto.get(1);
+        var qzAndRest = divideEqually(numberOfPages);
+        int qz = qzAndRest.get(0);
+        int remaining = qzAndRest.get(1);
         if (myPosition == 0){
             fromToMap.put("from", 1);
             fromToMap.put("to", qz + remaining);

@@ -24,20 +24,6 @@ public class Manager{
         }
     }
 
-    public boolean isDone(){
-        try{
-            mutex.lock();
-            for (Task t : tasks){
-                if (!t.isDone()){
-                    return false;
-                }
-            }
-            return true;
-        } finally {
-            mutex.unlock();
-        }
-    }
-
     public List<Task> getTasks(){
         try{
             mutex.lock();
