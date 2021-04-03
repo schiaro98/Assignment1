@@ -35,11 +35,11 @@ tasks.named<JavaExec>("run") {
 }
 
 task("runJPF", JavaExec::class) {
-    main = "main.java.MainNoGui"
+    main = "MainJPF"
     classpath = sourceSets["main"].runtimeClasspath
     doLast {
         exec {
-            commandLine = listOf("java", "-jar", "jpf-core/build/RunJPF.jar", "+classpath=build/classes/java/main", "main.java.MainNoGui")
+            commandLine = listOf("java", "-jar", "jpf-core/build/RunJPF.jar", "+classpath=build/classes/java/main", main)
         }
     }
 }
