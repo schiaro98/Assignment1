@@ -5,8 +5,8 @@ import java.util.*;
 
 public class ControllerJPF{
 
-    private final int processors =  2;
     private final int wordsToDisplay;
+    private static final int PROC = 2;
 
     public ControllerJPF(String numberWords){
         this.wordsToDisplay = Integer.parseInt(numberWords);
@@ -18,15 +18,17 @@ public class ControllerJPF{
         Manager manager = new Manager();
         RankMonitor monitor = new RankMonitorImpl();
 
-        for (int i = 0; i < 2; i++) {
-            manager.add(new Task("lorem-ipsum.pdf", processors));
+        for (int i = 0; i < PROC; i++) {
+            manager.add(new Task("lorem-ipsum.pdf", PROC));
         }
 
         Set<WorkerJPF> workerSet = new HashSet<>();
-        for (int i = 0; i < processors; i++) {
+        for (int i = 0; i < PROC; i++) {
             workerSet.add(new WorkerJPF(String.valueOf(i), manager, monitor));
         }
-        workerSet.forEach(Thread::start);
+        for (WorkerJPF w: workerSet) {
+            w.start();
+        }
 
         try{
             for (WorkerJPF worker : workerSet) {
@@ -35,22 +37,17 @@ public class ControllerJPF{
         } catch (InterruptedException e){
             e.printStackTrace();
         }
-        var rankToDisplay = monitor.viewMostFrequentN(this.wordsToDisplay);
+        System.out.println("QUA");
+        /*Map<String, Integer> rankToDisplay = monitor.viewMostFrequentN(this.wordsToDisplay);
+        System.out.println("QUI");
         int totalWords = rankToDisplay.get("TOTAL_WORDS");
         rankToDisplay.remove("TOTAL_WORDS");
         for (Map.Entry<String, Integer> s: rankToDisplay.entrySet()) {
             System.out.println("Parola: " + s.getKey() + " Occorenze: " + s.getValue());
         }
-        System.out.println("Numero di parole totali: " + totalWords);
+        System.out.println("Numero di parole totali: " + totalWords);*/
+        System.exit(0);
+        System.out.println("QUI");
     }
 
-
-    public static List<String> getFromIgnoreText()  {
-        List<String> words = new ArrayList<>();
-        for (int i = 0; i < 1; i++) {
-            words.add("test");
-        }
-        return words;
-    }
 }
-

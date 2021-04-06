@@ -49,11 +49,11 @@ public class RankMonitorImpl implements RankMonitor {
         try{
             mutex.lock();
             Map<String, Integer> sortedMap = new LinkedHashMap<>();
-            rank.entrySet()
+            /*rank.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                     .limit(n)
-                    .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));
+                    .forEachOrdered(x -> sortedMap.put(x.getKey(), x.getValue()));*/
 
             sortedMap.put("TOTAL_WORDS", totalWords);
             return sortedMap;
