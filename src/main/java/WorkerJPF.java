@@ -1,9 +1,8 @@
-package model;
+import model.Manager;
+import model.RankMonitor;
+import model.Task;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 
 public class WorkerJPF extends Thread{
 
@@ -30,12 +29,12 @@ public class WorkerJPF extends Thread{
                 t.incThreadWhoAlreadyWorked();
             }
         }
-        System.out.println("Thread "+getName()+" completed his job... exiting");
+        //System.out.println("Thread "+getName()+" completed his job... exiting");
     }
 
     private void analyze(String page){
         HashMap<String, Integer> pageRank = new HashMap<>();
-        List<String> words = List.of(page);
+        String[] words = page.split(" ");
         for (String word : words){
             update(pageRank, word);
             rankMonitor.update(pageRank);
