@@ -27,6 +27,9 @@ public class Controller {
     public void processEvent(String event, String path){
         final String pathFinal = cleanPath(path);
         final int nThread = Runtime.getRuntime().availableProcessors();
+//        final int nThread = Runtime.getRuntime().availableProcessors()/2;
+//        final int nThread = 1;
+
         switch(event){
             case "start":
                 long start = System.currentTimeMillis();
