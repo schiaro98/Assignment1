@@ -1,7 +1,8 @@
 import model.*;
 import java.util.*;
 
-@JPFConfig({"listener+=,gov.nasa.jpf.aprop.listener.SharedChecker"})
+
+//@JPFConfig({"listener+=,gov.nasa.jpf.aprop.listener.SharedChecker"})
 public class ControllerJPF{
 
     private static final int PROC = 2;
@@ -36,7 +37,8 @@ public class ControllerJPF{
         }
 
         Map<String, Integer> rankToDisplay = ((RankMonitorImplJpf) monitor).getMap();
-        @FilterField int totalWords = rankToDisplay.get("TOTAL_WORDS");
+        //@FilterField
+        int totalWords = rankToDisplay.get("TOTAL_WORDS");
         rankToDisplay.remove("TOTAL_WORDS");
         /*for (Map.Entry<String, Integer> s: rankToDisplay.entrySet()) {
             System.out.println("Parola: " + s.getKey() + " Occorenze: " + s.getValue());

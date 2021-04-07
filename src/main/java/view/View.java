@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 
 public class View extends JFrame implements ActionListener {
 
@@ -120,7 +121,7 @@ public class View extends JFrame implements ActionListener {
     public void rankUpdated(){
         try {
             SwingUtilities.invokeLater(() -> {
-                var mostFrequent = monitor.viewMostFrequentN(getNumOfWordsToBePrinted());
+                Map<String, Integer> mostFrequent = monitor.viewMostFrequentN(getNumOfWordsToBePrinted());
                 this.updateWordsCounter(mostFrequent.get("TOTAL_WORDS"));
                 mostFrequent.remove("TOTAL_WORDS");
                 this.getTextArea().setText("");

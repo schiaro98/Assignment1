@@ -35,7 +35,7 @@ public class ControllerWithoutGui {
 
         createTasks(pathFinal, nThread);
 
-        var ignoreWords = getFromIgnoreText(this.ignorePath);
+        List<String> ignoreWords = getFromIgnoreText(this.ignorePath);
 
         Set<Worker> workerSet = new HashSet<>();
         for (int i = 0; i < processors; i++) {
@@ -51,7 +51,7 @@ public class ControllerWithoutGui {
             e.printStackTrace();
         }
 
-        var rankToDisplay = monitor.viewMostFrequentN(this.wordsToDisplay);
+        Map<String,Integer> rankToDisplay = monitor.viewMostFrequentN(this.wordsToDisplay);
         displayRank(rankToDisplay);
         System.out.println("Time elapsed " + (System.currentTimeMillis() - start));
     }

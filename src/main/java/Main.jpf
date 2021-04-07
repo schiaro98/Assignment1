@@ -1,3 +1,6 @@
 target=MainJPF
 
-report.console.property_violation=error,trace
+report.console.property_violation=error,snapshot,trace
+listener=.listener.TraceStorer
+
+cg.enumerate_random=true

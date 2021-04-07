@@ -39,7 +39,7 @@ public class Controller {
                         createTasks(pathFinal, nThread);
 
                         //read ignore.txt
-                        var ignoreWords = getFromIgnoreText(view.getIgnorePath());
+                        List<String> ignoreWords = getFromIgnoreText(view.getIgnorePath());
 
                         Set<Worker> workerSet = new HashSet<>();
                         for (int i = 0; i < nThread; i++) {

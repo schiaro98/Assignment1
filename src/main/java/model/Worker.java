@@ -88,7 +88,7 @@ public class Worker extends Thread{
     private void analyze(Page page){
         HashMap<String, Integer> pageRank = new HashMap<>();
         long end;
-        var words =  page.getRelevantWords(unwantedWords);
+        List<String> words =  page.getRelevantWords(unwantedWords);
         long start = System.currentTimeMillis();
         for (String word : words){
             update(pageRank, word);
@@ -112,7 +112,7 @@ public class Worker extends Thread{
 
     private HashMap<String, Integer> getRange(int numberOfPages){
         HashMap<String, Integer> fromToMap = new HashMap<>();
-        var qzAndRest = divideEqually(numberOfPages);
+        List<Integer> qzAndRest = divideEqually(numberOfPages);
         int qz = qzAndRest.get(0);
         int remaining = qzAndRest.get(1);
         if (myPosition == 0){
